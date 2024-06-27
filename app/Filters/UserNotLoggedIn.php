@@ -42,6 +42,8 @@ class UserNotLoggedIn implements FilterInterface
      */
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
-        //
+        if (!session()->get('role')) {
+            return redirect()->to('admin');
+        }
     }
 }

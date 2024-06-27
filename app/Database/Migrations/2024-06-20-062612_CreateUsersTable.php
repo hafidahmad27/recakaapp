@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             'role' => [
                 'type'       => 'INT',
                 'constraint' => '1',
+                'default'    => '2'
             ],
             'status' => [
                 'type'       => 'BOOLEAN',

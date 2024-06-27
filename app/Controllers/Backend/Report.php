@@ -10,20 +10,10 @@ class Report extends BaseController
     public function index()
     {
         $data = [
-            'title' => 'Laporan | Recaka',
-            'content_header' => 'Laporan',
+            'title' => 'Report | Recaka',
+            'content_header' => 'Report',
         ];
 
         return view('backend/reports/index', $data);
-    }
-
-    public function a_reports()
-    {
-        // 
-    }
-
-    public function b_reports()
-    {
-        // 
     }
 }

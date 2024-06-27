@@ -30,4 +30,9 @@ class Auth extends BaseController
     {
         // 
     }
+
+    public function lupa_password()
+    {
+        // 
+    }
 }

@@ -19,11 +19,21 @@ class VerifikasiPembayaran extends BaseController
 
     public function daftar_transaksi()
     {
-        // 
+        $data = [
+            'title' => 'Daftar Transaksi | Recaka',
+            'content_header' => 'Daftar Transaksi',
+        ];
+
+        return view('backend/verifikasi_pembayaran/lists', $data);
     }
 
-    public function daftar_transaksi_detail()
+    public function detail_transaksi()
     {
-        // 
+        $data = [
+            'title' => 'Detail Transaksi | Recaka',
+            'content_header' => 'Detail Transaksi',
+        ];
+
+        return view('backend/verifikasi_pembayaran/list_details', $data);
     }
 }

@@ -12,7 +12,7 @@ class ProdukModel extends Model
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    // protected $allowedFields    = [];
+    protected $allowedFields    = ['kode_produk', 'nama_produk', 'deskripsi', 'jumlah', 'foto_produk'];
 
     // protected bool $allowEmptyInserts = false;
     // protected bool $updateOnlyChanged = true;
