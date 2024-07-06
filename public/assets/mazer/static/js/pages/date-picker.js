@@ -2,6 +2,7 @@
 flatpickr('.flatpickr-no-config', {
     enableTime: true,
     dateFormat: "Y-m-d H:i", 
+    time_24hr: true
 })
 flatpickr('.flatpickr-always-open', {
     inline: true

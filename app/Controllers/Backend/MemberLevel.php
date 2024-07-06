@@ -48,7 +48,7 @@ class MemberLevel extends BaseController
         ];
 
         if ($this->memberLevelModel->update($id, $data)) {
-            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Level Member <b>' . $data['nama_level_member'] . '</b> telah ditambahkan <i class="bi bi-check-circle"></i></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Level Member <b>' . $data['nama_level_member'] . '</b> telah di-update <i class="bi bi-check-circle"></i></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         } else {
             return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Level Member <b>' . $data['nama_level_member'] . '</b> sudah ada! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         }
@@ -62,7 +62,7 @@ class MemberLevel extends BaseController
         if ($this->memberLevelModel->delete($id)) {
             return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Level Member <b>' . $member_level['nama_level_member'] . '</b> telah dihapus <i class="bi bi-check-circle"></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         } else {
-            return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Level Member <b>' . $member_level['nama_level_member'] . '</b> tidak dapat dihapus! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Level Member <b>' . $member_level['nama_level_member'] . '</b> tidak dapat dihapus! karena <b>terhubung</b> dengan data lain <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         }
     }
 }

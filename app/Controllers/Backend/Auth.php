@@ -28,11 +28,12 @@ class Auth extends BaseController
     {
         $username = $this->request->getPost('username');
         $password = $this->request->getVar('password');
-        $user = $this->userModel->select('nama_karyawan, no_telp, username, password, role, status')->join('karyawan', 'users.karyawan_id = karyawan.id')->where('username', $username)->first();
+        $user = $this->userModel->select('users.id, nama_karyawan, no_telp, username, password, role, status')->join('karyawan', 'users.karyawan_id = karyawan.id')->where('username', $username)->first();
         if ($user) {
             if ($user['status'] == 1) {
                 if (password_verify($password, $user['password'])) {
                     $data = [
+                        'id' => $user['id'],
                         'nama_karyawan' => $user['nama_karyawan'],
                         'no_telp' => $user['no_telp'],
                         'username' => $user['username'],

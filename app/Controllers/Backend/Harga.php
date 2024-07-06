@@ -4,14 +4,18 @@ namespace App\Controllers\Backend;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
+use App\Models\MemberLevelModel;
+use App\Models\ProdukModel;
 use App\Models\HargaModel;
 
 class Harga extends BaseController
 {
-    protected $hargaModel;
+    protected $hargaModel, $produkModel, $memberLevelModel;
 
     public function __construct()
     {
+        $this->memberLevelModel = new MemberLevelModel();
+        $this->produkModel = new ProdukModel();
         $this->hargaModel = new HargaModel();
     }
 
@@ -20,7 +24,9 @@ class Harga extends BaseController
         $data = [
             'title' => 'Kelola Harga | Recaka',
             'content_header' => 'Kelola Harga',
-            'harga' => $this->hargaModel->select('produk_kode, harga_umum, harga_khusus, nama_level_member')->join('produk', 'harga.produk_kode = produk.kode_produk')->join('member_levels', 'harga.member_level_id = member_levels.id')->findAll()
+            'memberLevel_options' => $this->memberLevelModel->orderBy('id', 'ASC')->findAll(),
+            'produk_options' => $this->produkModel->findAll(),
+            'harga' => $this->hargaModel->select('harga.id, produk_kode, nama_produk, harga_umum, harga_khusus, member_level_id, nama_level_member')->join('produk', 'harga.produk_kode = produk.kode_produk')->join('member_levels', 'harga.member_level_id = member_levels.id')->orderBy('id', 'DESC')->findAll()
         ];
 
         return view('backend/harga/index', $data);
@@ -35,40 +41,58 @@ class Harga extends BaseController
             'member_level_id' => $this->request->getPost('member_level_id')
         ];
 
-        if ($this->hargaModel->insert($data)) {
-            return redirect()->back()->with('message_add', '<div class="alert alert-success alert-dismissible fade show" role="alert">Produk <b>' . $data['produk_kode'] . '</b> telah ditambahkan <i class="bi bi-check-circle"></i></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+        $nama_produk = $this->hargaModel->select('nama_produk')->join('produk', 'harga.produk_kode = produk.kode_produk')->where('produk_kode', $data['produk_kode'])->first();
+        $nama_level_member = $this->hargaModel->select('nama_level_member')->join('member_levels', 'harga.member_level_id = member_levels.id')->where('member_level_id', $data['member_level_id'])->first();
+
+        $cek_produk = $this->hargaModel->where('produk_kode', $data['produk_kode'])
+            ->where('member_level_id', $data['member_level_id'])
+            ->first();
+
+        if ($cek_produk) {
+            // Member Level ID sudah ada, tampilkan pesan kesalahan
+            return redirect()->back()->with('message_add', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Produk <b>' . implode($nama_produk) . ' - ' . implode($nama_level_member) . '</b> sudah ada! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         } else {
-            return redirect()->back()->with('message_add', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Produk <b>' . $data['produk_kode'] . '</b> sudah ada! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            // Simpan data ke basis data
+            $this->hargaModel->insert($data);
+            return redirect()->back()->with('message_add', '<div class="alert alert-success alert-dismissible fade show" role="alert">Produk <b>' . implode($nama_produk) . ' - ' . implode($nama_level_member) . '</b> telah ditambahkan <i class="bi bi-check-circle"></i></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         }
     }
 
     public function update()
     {
         $id = $this->request->getPost('id');
+        $harga = $this->hargaModel->select('nama_produk, nama_level_member')->join('produk', 'harga.produk_kode = produk.kode_produk')->join('member_levels', 'harga.member_level_id = member_levels.id')->find($id);
 
         $data = [
-            'produk_kode' => $this->request->getPost('produk_kode'),
             'harga_umum' => $this->request->getPost('harga_umum'),
             'harga_khusus' => $this->request->getPost('harga_khusus'),
             'member_level_id' => $this->request->getPost('member_level_id')
         ];
 
         if ($this->hargaModel->update($id, $data)) {
-            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Produk <b>' . $data['produk_kode'] . '</b> telah ditambahkan <i class="bi bi-check-circle"></i></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Produk <b>' . $harga['nama_produk'] . ' - ' . $harga['nama_level_member'] . '</b> telah di-update <i class="bi bi-check-circle"></i></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         } else {
-            return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Produk <b>' . $data['produk_kode'] . '</b> sudah ada! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Produk <b>' . $harga['nama_produk'] . ' - ' . $harga['nama_level_member'] . '</b> sudah ada! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         }
+    }
+
+    public function getEditById()
+    {
+        $id = $this->request->getPost('id');
+        $harga = $this->hargaModel->select('harga.id, nama_produk, harga_umum, harga_khusus, member_level_id, nama_level_member')->join('produk', 'harga.produk_kode = produk.kode_produk')->join('member_levels', 'harga.member_level_id = member_levels.id')->find($id);
+
+        return json_encode($harga);
     }
 
     public function delete()
     {
         $id = $this->request->getPost('id');
-        $harga = $this->hargaModel->find($id);
+        $harga = $this->hargaModel->select('nama_produk, nama_level_member')->join('produk', 'harga.produk_kode = produk.kode_produk')->join('member_levels', 'harga.member_level_id = member_levels.id')->find($id);
 
         if ($this->hargaModel->delete($id)) {
-            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Produk <b>' . $harga['produk_kode'] . '</b> telah dihapus <i class="bi bi-check-circle"></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Produk <b>' . $harga['nama_produk'] . ' - ' . $harga['nama_level_member'] . '</b> telah dihapus <i class="bi bi-check-circle"></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         } else {
-            return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Produk <b>' . $harga['produk_kode'] . '</b> tidak dapat dihapus! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Produk <b>' . $harga['nama_produk'] . ' - ' . $harga['nama_level_member'] . '</b> tidak dapat dihapus! karena <b>terhubung</b> dengan data lain <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         }
     }
 }

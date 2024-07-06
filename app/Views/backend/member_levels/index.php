@@ -11,7 +11,7 @@
                     <tr>
                         <th>#</th>
                         <th>Level Member</th>
-                        <th class="text-center">Action</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -19,26 +19,22 @@
                     foreach ($member_level as $level) : ?>
                         <tr>
                             <td><?= $no++; ?></td>
-
-                            <!-- FORM UPDATE START -->
-                            <form action="<?= url_to('backend.member_level.update'); ?>" method="post" class="d-inline">
-                                <td>
-                                    <div style="display: none;"><?= $level['nama_level_member']; ?></div>
-                                    <input type="text" name="nama_level_member" maxlength="6" class="form-control" value="<?= $level['nama_level_member']; ?>">
-                                </td>
-
-                                <!-- TD ACTION (UPDATE & DELETE) START -->
-                                <td align="center">
+                            <td>
+                                <form action="<?= url_to('backend.member_level.update'); ?>" method="post">
+                                    <div class="input-group">
+                                        <div class="d-none"><?= $level['nama_level_member']; ?></div>
+                                        <input type="text" name="nama_level_member" maxlength="6" class="form-control" value="<?= $level['nama_level_member']; ?>">
+                                        <input type="hidden" name="id" value="<?= $level['id'] ?>">
+                                        <button type="submit" class="btn icon btn-primary btn-sm"><i class="bi bi-arrow-repeat"></i> Update</button>
+                                    </div>
+                                </form>
+                            </td>
+                            <td class="border-start">
+                                <form action="<?= url_to('backend.member_level.delete'); ?>" method="post">
                                     <input type="hidden" name="id" value="<?= $level['id'] ?>">
-                                    <button type="submit" class="btn icon btn-primary btn-sm"><i class="bi bi-pencil"></i> Update</button>
-                            </form>
-                            <!-- /.FORM UPDATE END -->
-
-                            <form action="<?= url_to('backend.member_level.delete'); ?>" method="post" class="d-inline"> |
-                                <input type="hidden" name="id" value="<?= $level['id'] ?>">
-                                <button type="submit" class="btn icon btn-danger btn-sm"><i class="bi bi-trash"></i></button>
-                            </form>
-                            </td><!-- /.TD ACTION (UPDATE & DELETE) END -->
+                                    <button type="submit" class="btn icon btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                                </form>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -60,11 +56,11 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label>Nama Level Member</label>
-                                <input type="text" name="nama_level_member" maxlength="30" class="form-control" autofocus required>
+                                <input type="text" name="nama_level_member" maxlength="30" class="form-control" autofocus required <?= count($member_level) <= 2 ? '' : 'disabled'; ?>>
                             </div>
                         </div>
                         <div class="col-12 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary mt-3"><i class="bi bi-plus"></i> Tambah</button>
+                            <button type="submit" class="btn btn-primary mt-3 <?= count($member_level) <= 2 ? '' : 'disabled'; ?>"><i class="bi bi-plus"></i> Tambah</button>
                         </div>
                     </div>
                 </div>

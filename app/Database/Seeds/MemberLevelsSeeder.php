@@ -10,9 +10,6 @@ class MemberLevelsSeeder extends Seeder
     {
         $data = [
             [
-                'nama_level_member' => 'Umum',
-            ],
-            [
                 'nama_level_member' => 'Bronze',
             ],
             [

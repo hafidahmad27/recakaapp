@@ -26,9 +26,9 @@ class CreateTransaksiTable extends Migration
                 'type'          => 'INT',
                 'constraint'    => '9',
             ],
-            'voucher_kode' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '25',
+            'voucher_id' => [
+                'type'          => 'INT',
+                'constraint'    => '9',
                 'null'          => true,
             ],
             'catatan' => [
@@ -39,7 +39,7 @@ class CreateTransaksiTable extends Migration
         ]);
         $this->forge->addPrimaryKey('kode_transaksi');
         $this->forge->addForeignKey('member_id', 'members', 'id');
-        $this->forge->addForeignKey('voucher_kode', 'vouchers', 'kode_voucher');
+        $this->forge->addForeignKey('voucher_id', 'vouchers', 'id');
         $this->forge->createTable('transaksi');
     }
 

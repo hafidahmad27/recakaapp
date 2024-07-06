@@ -15,6 +15,7 @@ class ProdukSeeder extends Seeder
                 'kode_produk'   => 'RB-' . str_pad($i, 3, '0', STR_PAD_LEFT),
                 'nama_produk'   => $faker->words(2, true),
                 'deskripsi'     => $faker->text,
+                'harga_umum'    => $faker->randomNumber(6),
                 'jumlah'        => $faker->randomNumber(5),
                 'foto_produk'   => $faker->imageUrl(200, 200, 'perfume', true),
             ];

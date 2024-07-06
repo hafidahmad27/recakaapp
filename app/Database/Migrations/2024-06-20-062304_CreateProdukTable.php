@@ -17,10 +17,15 @@ class CreateProdukTable extends Migration
             'nama_produk' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '50',
+                'unique'     => true,
             ],
             'deskripsi' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '255',
+            ],
+            'harga_umum' => [
+                'type'       => 'INT',
+                'constraint' => '9',
             ],
             'jumlah' => [
                 'type'       => 'INT',

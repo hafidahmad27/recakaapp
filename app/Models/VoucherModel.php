@@ -12,7 +12,7 @@ class VoucherModel extends Model
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    // protected $allowedFields    = [];
+    protected $allowedFields    = ['kode_voucher', 'diskon', 'tanggal_mulai', 'tanggal_berakhir', 'deskripsi'];
 
     // protected bool $allowEmptyInserts = false;
     // protected bool $updateOnlyChanged = true;

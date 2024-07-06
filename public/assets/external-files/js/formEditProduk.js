@@ -1,23 +1,26 @@
-$(".btnEditMember").on("click", function() {
+$(".btnEditProduk").on("click", function() {
     $('#staticBackdrop').on('shown.bs.modal', function() {
-        $('#item_name').trigger('focus');
+        $('#nama_produk').trigger('focus');
     });
 
     const id = $(this).data("id");
     $.ajax({
-        url: window.location.origin+'/editMemberById',
+        url: window.location.origin+'/editProdukById',
         data: {
-            id: id,
+            kode_produk: id,
         },
         method: "post",
         dataType: "json",
         success: function (data) {
             console.log(data);
-            $("#formEditMember input[type=hidden]").val(data.id);
-            $("#item_name").val(data.item_name);
-            $("#price").val(data.price);
-            $("#description").val(data.description);
-            $("#category_id").val(data.category_id);
+            $("#formEditProduk input[type=hidden]").val(data.id);
+            $("#kode_produk").val(data.kode_produk);
+            $("#nama_produk").val(data.nama_produk);
+            $("#harga_umum").val(data.harga_umum);
+            $("#jumlah").val(data.jumlah);
+            $("#deskripsi").val(data.deskripsi);
+            $("#oldName").val(data.foto_produk);
+            $("#foto_produk").val(data.foto_produk);
         },
     });
 });

@@ -21,7 +21,7 @@ class KaryawanModel extends Model
     // protected array $castHandlers = [];
 
     // Dates
-    // protected $useTimestamps = false;
+    protected $useTimestamps = true;
     // protected $dateFormat    = 'datetime';
     // protected $createdField  = 'created_at';
     // protected $updatedField  = 'updated_at';
@@ -43,4 +43,22 @@ class KaryawanModel extends Model
     // protected $afterFind      = [];
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
+
+    public function updateKaryawanWithUser($id, $dataKaryawan, $dataUser)
+    {
+        $db = \Config\Database::connect();
+        $builderKaryawan = $db->table('karyawan');
+        $builderUsers = $db->table('users');
+
+        // Dapatkan karyawan_id dari users berdasarkan id
+        $user = $builderUsers->select('karyawan_id')->where('id', $id)->get()->getRowArray();
+
+        if ($user) {
+            // Update tabel karyawan
+            $builderKaryawan->where('id', $user['karyawan_id'])->update($dataKaryawan);
+
+            // Update tabel users
+            $builderUsers->where('id', $id)->update($dataUser);
+        }
+    }
 }

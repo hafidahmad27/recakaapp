@@ -4,14 +4,16 @@ namespace App\Controllers\Backend;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
+use App\Models\MemberLevelModel;
 use App\Models\MemberModel;
 
 class Member extends BaseController
 {
-    protected $memberModel;
+    protected $memberModel, $memberLevelModel;
 
     public function __construct()
     {
+        $this->memberLevelModel = new MemberLevelModel();
         $this->memberModel = new MemberModel();
     }
 
@@ -20,7 +22,7 @@ class Member extends BaseController
         $data = [
             'title' => 'Kelola Member | Recaka',
             'content_header' => 'Kelola Member',
-            'members' => $this->memberModel->select('members.id, nama_level_member, nama_member, username, password, no_telp, status')->join('member_levels', 'members.member_level_id = member_levels.id')->findAll(),
+            'members' => $this->memberModel->select('members.id, member_level_id, nama_level_member, nama_member, username, password, no_telp, status')->join('member_levels', 'members.member_level_id = member_levels.id', 'left')->orderBy('id', 'DESC')->findAll(),
         ];
 
         return view('backend/members/index', $data);
@@ -31,12 +33,10 @@ class Member extends BaseController
         $id = $this->request->getPost('id');
 
         $data = [
-            'member_level_id' => $this->request->getPost('member_level_id'),
+            // 'member_level_id' => $this->request->getPost('member_level_id'),
             'nama_member' => $this->request->getPost('nama_member'),
             'username' => $this->request->getPost('username'),
-            'password' => $this->request->getPost('password'),
             'no_telp' => $this->request->getPost('no_telp'),
-            'status' => $this->request->getPost('status')
         ];
 
         if ($this->memberModel->update($id, $data)) {
@@ -49,7 +49,8 @@ class Member extends BaseController
     public function getEditById()
     {
         $id = $this->request->getPost('id');
-        $member = $this->memberModel->find($id);
+
+        $member = $this->memberModel->select('members.id, member_level_id, nama_level_member, nama_member, username, no_telp')->join('member_levels', 'members.member_level_id = member_levels.id', 'left')->find($id);
 
         return json_encode($member);
     }
@@ -91,7 +92,7 @@ class Member extends BaseController
         if ($this->memberModel->delete($id)) {
             return redirect()->back()->with('message', '<div class="alert alert-success mt-3 alert-dismissible fade show" role="alert">Member <b>' . $member['nama_member'] . '</b> telah dihapus <i class="bi bi-check-circle"></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         } else {
-            return redirect()->back()->with('message', '<div class="alert alert-danger mt-3 alert-dismissible fade show" role="alert">Member <b>' . $member['nama_member'] . '</b> tidak dapat dihapus! karena <b>ada</b> dalam <b>Keranjang Item</b><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-danger mt-3 alert-dismissible fade show" role="alert">Member <b>' . $member['nama_member'] . '</b> tidak dapat dihapus! karena <b>terhubung</b> dengan data lain <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         }
     }
 }

@@ -39,6 +39,7 @@
         <div class="sidebar-menu">
             <hr>
             <ul class="menu">
+                <?php $role = session()->get('role') ?>
                 <li class="sidebar-item <?= url_is('backend') ? 'active' : ''; ?>">
                     <a href="<?= url_to('backend.dashboard.view'); ?>" class="sidebar-link">
                         <i class="bi bi-speedometer"></i>
@@ -73,9 +74,11 @@
                         <li class="submenu-item <?= url_is('backend/vouchers') ? 'active' : ''; ?>">
                             <a href="<?= url_to('backend.voucher.view'); ?>" class="submenu-link">Vouchers</a>
                         </li>
-                        <li class="submenu-item <?= url_is('backend/karyawan') ? 'active' : ''; ?>">
-                            <a href="<?= url_to('backend.karyawan.view'); ?>" class="submenu-link">Karyawan</a>
-                        </li>
+                        <?php if ($role == 1) : ?>
+                            <li class="submenu-item <?= url_is('backend/karyawan') ? 'active' : ''; ?>">
+                                <a href="<?= url_to('backend.karyawan.view'); ?>" class="submenu-link">Karyawan</a>
+                            </li>
+                        <?php endif ?>
                     </ul>
                 </li>
                 <li class="sidebar-item has-sub <?= (url_is('backend/verifikasi-pembayaran')
@@ -107,7 +110,6 @@
                     </ul>
                 </li>
                 <hr>
-                <?php $role = session()->get('role') ?>
                 <?php if ($role == 1) : ?>
                     <li class="sidebar-item <?= url_is('backend/users') ? 'active' : ''; ?>">
                         <a href="<?= url_to('backend.user.view'); ?>" class="sidebar-link">

@@ -12,7 +12,9 @@
 <!-- External JavaScript Files Loader -->
 <script src="<?= base_url(); ?>assets/external-files/js/formEditMember.js"></script>
 <script src="<?= base_url(); ?>assets/external-files/js/formEditProduk.js"></script>
-<script src="<?= base_url(); ?>assets/external-files/js/formEditUser.js"></script>
+<script src="<?= base_url(); ?>assets/external-files/js/formEditHarga.js"></script>
+<script src="<?= base_url(); ?>assets/external-files/js/formEditVoucher.js"></script>
+<script src="<?= base_url(); ?>assets/external-files/js/formEditKaryawan.js"></script>
 
 <script>
     // autofocus field login

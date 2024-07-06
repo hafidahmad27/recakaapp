@@ -82,6 +82,10 @@ $routes->group('backend', ['filter' => 'userNotLoggedIn'], static function ($rou
 
 // get value by ID with AJAX for modal edit form
 $routes->post('editMemberById', 'Backend\Member::getEditById');
+$routes->post('editProdukById', 'Backend\Produk::getEditById');
+$routes->post('editHargaById', 'Backend\Harga::getEditById');
+$routes->post('editVoucherById', 'Backend\Voucher::getEditById');
+$routes->post('editKaryawanById', 'Backend\Karyawan::getEditById');
 $routes->post('editCartItemById', 'Backend\Transaction::getEditCartItemById');
 
 
@@ -94,7 +98,13 @@ $routes->get('lupa-password', 'Frontend\Auth::lupa_password', ['as' => 'frontend
 
 // Routes Frontend
 $routes->group('member', static function ($routes) {
-    $routes->get('/', 'Frontend\DaftarProduk::index', ['as' => 'frontend.daftar_produk.view']);
+    $routes->get('/', 'Frontend\Pages::index', ['as' => 'frontend.page.home.view']);
+    $routes->get('shop', 'Frontend\Pages::shop', ['as' => 'frontend.page.shop.view']);
+    $routes->get('about', 'Frontend\Pages::about', ['as' => 'frontend.page.about.view']);
+    $routes->get('services', 'Frontend\Pages::services', ['as' => 'frontend.page.services.view']);
+    $routes->get('blog', 'Frontend\Pages::blog', ['as' => 'frontend.page.blog.view']);
+    $routes->get('contact', 'Frontend\Pages::contact', ['as' => 'frontend.page.contact.view']);
+    $routes->get('cart', 'Frontend\Pages::cart', ['as' => 'frontend.page.cart.view']);
     $routes->group('keranjang', static function ($routes) {
         $routes->get('/', 'Frontend\Keranjang::index', ['as' => 'frontend.keranjang.view']);
         $routes->post('addToCart', 'Frontend\Keranjang::addToCart', ['as' => 'frontend.keranjang.addToCart']);

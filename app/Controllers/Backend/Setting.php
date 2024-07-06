@@ -9,11 +9,12 @@ use App\Models\UserModel;
 
 class Setting extends BaseController
 {
-    protected $userModel;
+    protected $userModel, $karyawanModel;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
+        $this->karyawanModel = new KaryawanModel();
     }
 
     public function index()
@@ -33,16 +34,22 @@ class Setting extends BaseController
     {
         $id = session()->get('id');
 
-        $data = [
-            'name' => $this->request->getPost('name'),
+        $dataKaryawan = [
+            'nama_karyawan' => $this->request->getPost('nama_karyawan') ?: session()->get('nama_karyawan'),
+            'no_telp' => $this->request->getPost('no_telp')
+        ];
+
+        $dataUser = [
             'username' => $this->request->getPost('username')
         ];
 
-        if (session()->set($data)) {;
-            $this->userModel->update($id, $data);
-            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Password berhasil diubah <i class="bi bi-check-circle"></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+        if (true) {
+            session()->set($dataKaryawan);
+            session()->set($dataUser);
+            $this->karyawanModel->updateKaryawanWithUser($id, $dataKaryawan, $dataUser);
+            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Profil berhasil diubah <i class="bi bi-check-circle"></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         } else {
-            return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert"><b>Password lama tidak benar</b> <i class="bi bi-exclamation-circle"></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert"><b>Gagal mengubah profil </b> <i class="bi bi-exclamation-circle"></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         }
     }
 
@@ -53,10 +60,11 @@ class Setting extends BaseController
         $old_password = $this->userModel->find($id);
         $new_password = $this->request->getVar('password_new');
 
+        $data = [
+            'password' => password_hash($new_password, PASSWORD_DEFAULT)
+        ];
+
         if (password_verify($input_password_old, $old_password['password'])) {
-            $data = [
-                'password' => password_hash($new_password, PASSWORD_DEFAULT)
-            ];
             session()->set($data);
             $this->userModel->update($id, $data);
             return redirect()->back()->with('message-password', '<div class="alert alert-success alert-dismissible fade show" role="alert">Password berhasil diubah <i class="bi bi-check-circle"></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');

@@ -14,11 +14,12 @@
             <table class="table table-striped" id="table1">
                 <thead>
                     <tr>
-                        <th>Kode Produk</th>
-                        <th>Nama Produk</th>
-                        <th>Deskripsi</th>
+                        <th width="13%">Kode Produk</th>
+                        <th width="20%">Nama Produk</th>
+                        <th class="text-center">Deskripsi</th>
+                        <th>Harga</th>
                         <th>Jumlah</th>
-                        <th>Foto Produk</th>
+                        <th class="text-center">Foto</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -28,15 +29,23 @@
                         <tr>
                             <td><?= $product['kode_produk'] ?></td>
                             <td><?= $product['nama_produk'] ?></td>
-                            <td><?= $product['deskripsi'] ?></td>
-                            <td><?= $product['jumlah'] ?></td>
-                            <td width="10%"><a href="<?= $product['foto_produk'] ?>" target="_blank"> <?= $product['foto_produk'] ?></a></td>
-                            <td width="15%" align="center">
+                            <td style="text-align: justify;"><?= $product['deskripsi'] ?></td>
+                            <td><?= number_format($product['harga_umum'], 0, ',', '.'); ?></td>
+                            <td><?= number_format($product['jumlah'], 0, ',', '.'); ?></td>
+                            <td class="text-center" width="10%">
+                                <?php if (substr($product['foto_produk'], 0, 4) == 'http') : ?>
+                                    <!-- Gambar dari faker seeder -->
+                                    <a href="<?= $product['foto_produk'] ?>" target="_blank">[Foto]</a>
+                                <?php else : ?>
+                                    <!-- Gambar dari direktori public/uploads -->
+                                    <a href="<?= base_url(); ?>uploads/<?= $product['foto_produk'] ?>" target="_blank">[Foto]</a>
+                                <?php endif; ?>
+                            </td>
+                            <td width="15%" class="text-center">
                                 <button type="button" class="btn btn-primary btn-sm btnEditProduk" data-id="<?= $product['kode_produk'] ?>" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-pencil"></i></button>
-
-                                <form action="<?= url_to('backend.user.delete'); ?>" method="post" class="d-inline"> |
+                                <form action="<?= url_to('backend.produk.delete'); ?>" method="post" class="d-inline"> |
                                     <?= csrf_field(); ?>
-                                    <input type="hidden" name="id" value="<?= $product['kode_produk'] ?>">
+                                    <input type="hidden" name="kode_produk" value="<?= $product['kode_produk'] ?>">
                                     <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
                                 </form>
                             </td>
@@ -44,6 +53,56 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL FORM Edit Produk -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Form Edit Produk</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="<?= url_to('backend.produk.update'); ?>" method="post" id="formEditProduk">
+                <div class="modal-body">
+                    <input type="hidden" name="kode_produk">
+                    <div class="row">
+                        <div class="form-group col-md-2">
+                            <label>Kode Produk</label>
+                            <input id="kode_produk" name="kode_produk" class="form-control" readonly>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label>Nama Produk</label>
+                            <input type="text" id="nama_produk" name="nama_produk" maxlength="50" class="form-control" required autofocus>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Harga Umum</label>
+                            <input type="number" id="harga_umum" name="harga_umum" min="1" maxlength="9" oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" required>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label>Jumlah</label>
+                            <input type="number" id="jumlah" name="jumlah" min="1" maxlength="5" oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-7">
+                            <label>Deskripsi</label>
+                            <textarea id="deskripsi" name="deskripsi" class="form-control" maxlength="255" rows="4"></textarea>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label>Foto Produk</label>
+                            <input type="hidden" id="oldName" name="oldName">
+                            <input type="file" id="foto_produk" name="foto_produk" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-arrow-repeat"></i> Update</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

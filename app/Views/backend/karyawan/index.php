@@ -20,30 +20,15 @@
                     foreach ($karyawan as $karyawn) : ?>
                         <tr>
                             <td><?= $no++; ?></td>
-
-                            <!-- FORM UPDATE START -->
-                            <form action="<?= url_to('backend.karyawan.update'); ?>" method="post" class="d-inline">
-                                <td>
-                                    <div style="display: none;"><?= $karyawn['nama_karyawan']; ?></div>
-                                    <input type="text" name="nama_karyawan" maxlength="50" class="form-control" value="<?= $karyawn['nama_karyawan']; ?>">
-                                </td>
-                                <td>
-                                    <div style="display: none;"><?= $karyawn['no_telp']; ?></div>
-                                    <input type="text" name="nama_karyawan" maxlength="14" class="form-control" value="<?= $karyawn['no_telp']; ?>">
-                                </td>
-
-                                <!-- TD ACTION (UPDATE & DELETE) START -->
-                                <td align="center">
+                            <td><?= $karyawn['nama_karyawan']; ?></td>
+                            <td><?= $karyawn['no_telp']; ?></td>
+                            <td align="center">
+                                <button type="button" class="btn btn-primary btn-sm btnEditKaryawan" data-id="<?= $karyawn['id'] ?>" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-pencil"></i></button>
+                                <form action="<?= url_to('backend.karyawan.delete'); ?>" method="post" class="d-inline"> |
                                     <input type="hidden" name="id" value="<?= $karyawn['id'] ?>">
-                                    <button type="submit" class="btn icon btn-primary btn-sm"><i class="bi bi-arrow-repeat"></i> Update</button>
-                            </form>
-                            <!-- /.FORM UPDATE END -->
-
-                            <form action="<?= url_to('backend.karyawan.delete'); ?>" method="post" class="d-inline"> |
-                                <input type="hidden" name="id" value="<?= $karyawn['id'] ?>">
-                                <button type="submit" class="btn icon btn-danger btn-sm"><i class="bi bi-trash"></i></button>
-                            </form>
-                            </td><!-- /.TD ACTION (UPDATE & DELETE) END -->
+                                    <button type="submit" class="btn icon btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                                </form>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -69,13 +54,44 @@
                             </div>
                             <div class="form-group">
                                 <label>No Telp</label>
-                                <input type="number" min="0" name="no_telp" maxlength="14" oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" autofocus required>
+                                <input type="number" name="no_telp" min="0" maxlength="14" oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" autofocus required>
                             </div>
                         </div>
                         <div class="col-12 d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary mt-3"><i class="bi bi-plus"></i> Tambah</button>
                         </div>
                     </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL FORM Edit Karyawan -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Form Edit Karyawan</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="<?= url_to('backend.karyawan.update'); ?>" method="post" id="formEditKaryawan">
+                <div class="modal-body">
+                    <input type="hidden" name="id">
+                    <div class="row">
+                        <div class="form-group col-md-7">
+                            <label>Nama Karyawan</label>
+                            <input type="text" id="nama_karyawan" name="nama_karyawan" maxlength="50" class="form-control" required>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label>No Telp</label>
+                            <input type="text" id="no_telp" name="no_telp" maxlength="14" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-arrow-repeat"></i> Update</button>
                 </div>
             </form>
         </div>

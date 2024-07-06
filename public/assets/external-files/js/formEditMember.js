@@ -1,6 +1,6 @@
 $(".btnEditMember").on("click", function() {
     $('#staticBackdrop').on('shown.bs.modal', function() {
-        $('#item_name').trigger('focus');
+        $('#nama_member').trigger('focus');
     });
 
     const id = $(this).data("id");
@@ -14,10 +14,10 @@ $(".btnEditMember").on("click", function() {
         success: function (data) {
             console.log(data);
             $("#formEditMember input[type=hidden]").val(data.id);
-            $("#item_name").val(data.item_name);
-            $("#price").val(data.price);
-            $("#description").val(data.description);
-            $("#category_id").val(data.category_id);
+            $("#nama_level_member").val(data.nama_level_member || "Umum");
+            $("#nama_member").val(data.nama_member);
+            $("#username").val(data.username);
+            $("#no_telp").val(data.no_telp);
         },
     });
 });

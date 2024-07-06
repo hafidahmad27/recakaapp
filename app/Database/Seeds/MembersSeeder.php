@@ -16,7 +16,7 @@ class MembersSeeder extends Seeder
                 'username'        => $faker->text,
                 'password'        => $faker->text,
                 'no_telp'         => $faker->phoneNumber,
-                'member_level_id' => $faker->numberBetween(1, 4),
+                'member_level_id' => $faker->optional(0.5, null)->numberBetween(1, 3),
                 'status'          => $faker->numberBetween(0, 1),
             ];
 

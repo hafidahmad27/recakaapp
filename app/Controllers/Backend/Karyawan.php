@@ -17,10 +17,15 @@ class Karyawan extends BaseController
 
     public function index()
     {
+        $role = session()->get('role');
+        if ($role != 1) {
+            return redirect()->back();
+        }
+
         $data = [
             'title' => 'Kelola Karyawan | Recaka',
             'content_header' => 'Kelola Karyawan',
-            'karyawan' => $this->karyawanModel->orderBy('id', 'ASC')->findAll()
+            'karyawan' => $this->karyawanModel->orderBy('id', 'DESC')->findAll()
         ];
 
         return view('backend/karyawan/index', $data);
@@ -50,10 +55,18 @@ class Karyawan extends BaseController
         ];
 
         if ($this->karyawanModel->update($id, $data)) {
-            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Karyawan <b>' . $data['nama_karyawan'] . '</b> telah ditambahkan <i class="bi bi-check-circle"></i></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Karyawan <b>' . $data['nama_karyawan'] . '</b> telah di-update</b> <i class="bi bi-check-circle"></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         } else {
             return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Karyawan <b>' . $data['nama_karyawan'] . '</b> sudah ada! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         }
+    }
+
+    public function getEditById()
+    {
+        $id = $this->request->getPost('id');
+        $karyawan = $this->karyawanModel->find($id);
+
+        return json_encode($karyawan);
     }
 
     public function delete()
@@ -64,7 +77,7 @@ class Karyawan extends BaseController
         if ($this->karyawanModel->delete($id)) {
             return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Karyawan <b>' . $karyawan['nama_karyawan'] . '</b> telah dihapus <i class="bi bi-check-circle"></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         } else {
-            return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Karyawan <b>' . $karyawan['nama_karyawan'] . '</b> tidak dapat dihapus! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Karyawan <b>' . $karyawan['nama_karyawan'] . '</b> tidak dapat dihapus! karena <b>terhubung</b> dengan data lain <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         }
     }
 }

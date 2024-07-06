@@ -7,12 +7,12 @@ use CodeIgniter\Model;
 class ProdukModel extends Model
 {
     protected $table            = 'produk';
-    // protected $primaryKey       = 'id';
+    protected $primaryKey       = 'kode_produk';
     // protected $useAutoIncrement = true;
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    protected $allowedFields    = ['kode_produk', 'nama_produk', 'deskripsi', 'jumlah', 'foto_produk'];
+    protected $allowedFields    = ['kode_produk', 'nama_produk', 'deskripsi', 'harga_umum', 'jumlah', 'foto_produk'];
 
     // protected bool $allowEmptyInserts = false;
     // protected bool $updateOnlyChanged = true;
@@ -21,7 +21,7 @@ class ProdukModel extends Model
     // protected array $castHandlers = [];
 
     // Dates
-    // protected $useTimestamps = false;
+    protected $useTimestamps = true;
     // protected $dateFormat    = 'datetime';
     // protected $createdField  = 'created_at';
     // protected $updatedField  = 'updated_at';
@@ -43,4 +43,22 @@ class ProdukModel extends Model
     // protected $afterFind      = [];
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
+    public function generateKodeProduk()
+    {
+        $builder = $this->db->table('produk')
+            ->selectMax('kode_produk', 'kd_produk');
+
+        $query = $builder->get()->getResultArray();
+
+        if ($query > 0) {
+            $lastKode = $query[0]['kd_produk'];
+            $ambilKode = substr($lastKode, -3);
+            $counter = intval($ambilKode) + 1;
+            $kd = sprintf('%03s', $counter);
+        } else {
+            $kd = '001';
+        }
+
+        return 'RB-' . $kd;
+    }
 }

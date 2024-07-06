@@ -8,14 +8,12 @@ class CreateVouchersTable extends Migration
 {
     public function up()
     {
+        $this->forge->addField('id');
         $this->forge->addField([
             'kode_voucher' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '25',
-            ],
-            'nama_voucher' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '50',
+                'unique'        => true,
             ],
             'diskon' => [
                 'type'          => 'INT',
@@ -32,7 +30,6 @@ class CreateVouchersTable extends Migration
                 'constraint'    => '255',
             ],
         ]);
-        $this->forge->addPrimaryKey('kode_voucher');
         $this->forge->createTable('vouchers');
     }
 

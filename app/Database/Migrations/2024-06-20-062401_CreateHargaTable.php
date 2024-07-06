@@ -14,10 +14,6 @@ class CreateHargaTable extends Migration
                 'type'       => 'VARCHAR',
                 'constraint' => '6',
             ],
-            'harga_umum' => [
-                'type'       => 'INT',
-                'constraint' => '9',
-            ],
             'harga_khusus' => [
                 'type'       => 'INT',
                 'constraint' => '9',
