@@ -12,7 +12,7 @@ class HargaModel extends Model
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    protected $allowedFields    = ['produk_kode', 'harga_khusus', 'member_level_id'];
+    protected $allowedFields    = ['produk_id', 'harga_khusus', 'member_level_id'];
 
     // protected bool $allowEmptyInserts = false;
     // protected bool $updateOnlyChanged = true;

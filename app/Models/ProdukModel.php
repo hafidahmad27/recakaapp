@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class ProdukModel extends Model
 {
     protected $table            = 'produk';
-    protected $primaryKey       = 'kode_produk';
+    // protected $primaryKey       = 'id';
     // protected $useAutoIncrement = true;
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
@@ -43,22 +43,23 @@ class ProdukModel extends Model
     // protected $afterFind      = [];
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
-    public function generateKodeProduk()
-    {
-        $builder = $this->db->table('produk')
-            ->selectMax('kode_produk', 'kd_produk');
 
-        $query = $builder->get()->getResultArray();
+    // public function generateKodeProduk()
+    // {
+    //     $builder = $this->db->table('produk')
+    //         ->selectMax('kode_produk', 'kd_produk');
 
-        if ($query > 0) {
-            $lastKode = $query[0]['kd_produk'];
-            $ambilKode = substr($lastKode, -3);
-            $counter = intval($ambilKode) + 1;
-            $kd = sprintf('%03s', $counter);
-        } else {
-            $kd = '001';
-        }
+    //     $query = $builder->get()->getResultArray();
 
-        return 'RB-' . $kd;
-    }
+    //     if ($query > 0) {
+    //         $lastKode = $query[0]['kd_produk'];
+    //         $ambilKode = substr($lastKode, -3);
+    //         $counter = intval($ambilKode) + 1;
+    //         $kd = sprintf('%03s', $counter);
+    //     } else {
+    //         $kd = '001';
+    //     }
+
+    //     return 'RB-' . $kd;
+    // }
 }

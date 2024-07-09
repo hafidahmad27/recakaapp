@@ -9,6 +9,7 @@ class CreateProdukTable extends Migration
 {
     public function up()
     {
+        $this->forge->addField('id');
         $this->forge->addField([
             'kode_produk' => [
                 'type'       => 'VARCHAR',
@@ -20,8 +21,7 @@ class CreateProdukTable extends Migration
                 'unique'     => true,
             ],
             'deskripsi' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '255',
+                'type'       => 'TEXT',
             ],
             'harga_umum' => [
                 'type'       => 'INT',
@@ -44,7 +44,6 @@ class CreateProdukTable extends Migration
                 'default'    => new RawSql('CURRENT_TIMESTAMP'),
             ],
         ]);
-        $this->forge->addPrimaryKey('kode_produk');
         $this->forge->createTable('produk');
     }
 

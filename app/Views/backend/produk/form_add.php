@@ -18,11 +18,11 @@
             <div class="row">
                 <div class="form-group col-md-2">
                     <label>Kode Produk</label>
-                    <input type="text" name="kode_produk" value="<?= $display_kode_produk; ?>" class="form-control" readonly>
+                    <input type="text" name="kode_produk" maxlength="6" class="form-control" required autofocus>
                 </div>
                 <div class="form-group col-md-6">
                     <label>Nama Produk</label>
-                    <input type="text" name="nama_produk" maxlength="50" class="form-control" required autofocus>
+                    <input type="text" name="nama_produk" maxlength="50" class="form-control" required>
                 </div>
                 <div class="form-group col-md-2">
                     <label>Harga Umum</label>
@@ -36,7 +36,7 @@
             <div class="row">
                 <div class="form-group col-md-8">
                     <label>Deskripsi</label>
-                    <textarea name="deskripsi" class="form-control" maxlength="255" rows="3"></textarea>
+                    <textarea name="deskripsi" class="form-control" rows="3"></textarea>
                 </div>
                 <div class="form-group col-md-4">
                     <label>Foto Produk</label>

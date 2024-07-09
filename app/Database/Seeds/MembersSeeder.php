@@ -10,7 +10,7 @@ class MembersSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
 
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             $data = [
                 'nama_member'     => $faker->name,
                 'username'        => $faker->text,

@@ -10,9 +10,9 @@ class CreateHargaTable extends Migration
     {
         $this->forge->addField('id');
         $this->forge->addField([
-            'produk_kode' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '6',
+            'produk_id' => [
+                'type'          => 'INT',
+                'constraint'    => '9',
             ],
             'harga_khusus' => [
                 'type'       => 'INT',
@@ -27,7 +27,7 @@ class CreateHargaTable extends Migration
                 'default'    => '1',
             ],
         ]);
-        $this->forge->addForeignKey('produk_kode', 'produk', 'kode_produk');
+        $this->forge->addForeignKey('produk_id', 'produk', 'id');
         $this->forge->addForeignKey('member_level_id', 'member_levels', 'id');
         $this->forge->createTable('harga');
     }

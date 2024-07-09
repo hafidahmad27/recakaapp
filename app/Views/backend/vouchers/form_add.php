@@ -48,7 +48,7 @@
             </div>
             <div class="form-group">
                 <label>Deskripsi</label>
-                <textarea name="deskripsi" class="form-control" maxlength="255" rows="3"></textarea>
+                <textarea name="deskripsi" class="form-control" rows="3"></textarea>
             </div>
             <div class="d-flex mt-4">
                 <div class="me-auto"><a href="<?= url_to('backend.voucher.view'); ?>" class="btn btn-light-secondary"><i class="bi bi-reply"></i> Kembali</a></div>

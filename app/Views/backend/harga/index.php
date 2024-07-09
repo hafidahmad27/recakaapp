@@ -51,10 +51,10 @@
                 <div class="form-body">
                     <div class="form-group col-md-12">
                         <label>Produk</label>
-                        <select name="produk_kode" class="form-select" autofocus required>
+                        <select name="produk_id" class="form-select" autofocus required>
                             <option value="" selected disabled>Pilih Produk..</option>
                             <?php foreach ($produk_options as $role_option) : ?>
-                                <option value="<?= $role_option['kode_produk']; ?>"><?= $role_option['nama_produk']; ?> - <?= number_format($role_option['harga_umum'], 0, ',', '.'); ?></option>
+                                <option value="<?= $role_option['id']; ?>"><?= $role_option['nama_produk']; ?> - <?= number_format($role_option['harga_umum'], 0, ',', '.'); ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>

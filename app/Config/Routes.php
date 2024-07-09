@@ -51,6 +51,8 @@ $routes->group('backend', ['filter' => 'userNotLoggedIn'], static function ($rou
     });
     $routes->group('verifikasi-pembayaran', static function ($routes) {
         $routes->get('/', 'Backend\VerifikasiPembayaran::index', ['as' => 'backend.verifikasi_pembayaran.view']);
+        $routes->post('update', 'Backend\VerifikasiPembayaran::update', ['as' => 'backend.verifikasi_pembayaran.update']);
+        $routes->post('ubahStatus', 'Backend\VerifikasiPembayaran::ubahStatus', ['as' => 'backend.verifikasi_pembayaran.ubahStatus']);
     });
     $routes->group('daftar-transaksi', static function ($routes) {
         $routes->get('/', 'Backend\VerifikasiPembayaran::daftar_transaksi', ['as' => 'backend.verifikasi_pembayaran.daftar_transaksi.view']);
@@ -94,17 +96,19 @@ $routes->get('/', 'Home::index');
 $routes->get('login', 'Frontend\Auth::index', ['as' => 'frontend.login.view']);
 $routes->post('login', 'Frontend\Auth::login', ['as' => 'frontend.login']);
 $routes->post('logout', 'Frontend\Auth::logout', ['as' => 'frontend.logout']);
+$routes->get('register', 'Frontend\Auth::register', ['as' => 'frontend.register.view']);
 $routes->get('lupa-password', 'Frontend\Auth::lupa_password', ['as' => 'frontend.lupa_password.view']);
 
 // Routes Frontend
 $routes->group('member', static function ($routes) {
-    $routes->get('/', 'Frontend\Pages::index', ['as' => 'frontend.page.home.view']);
-    $routes->get('shop', 'Frontend\Pages::shop', ['as' => 'frontend.page.shop.view']);
-    $routes->get('about', 'Frontend\Pages::about', ['as' => 'frontend.page.about.view']);
-    $routes->get('services', 'Frontend\Pages::services', ['as' => 'frontend.page.services.view']);
-    $routes->get('blog', 'Frontend\Pages::blog', ['as' => 'frontend.page.blog.view']);
-    $routes->get('contact', 'Frontend\Pages::contact', ['as' => 'frontend.page.contact.view']);
-    $routes->get('cart', 'Frontend\Pages::cart', ['as' => 'frontend.page.cart.view']);
+    $routes->get('/', 'Frontend\Produk::index', ['as' => 'frontend.produk.view']);
+    $routes->get('produk/(:any)', 'Frontend\Produk::produk_details/$1', ['as' => 'frontend.produk.produk_details.view']);
+    $routes->get('cek-voucher', 'Frontend\CekVoucher::index', ['as' => 'frontend.cek_voucher.view']);
+    $routes->group('orders', static function ($routes) {
+        $routes->get('/', 'Frontend\Order::index', ['as' => 'frontend.orders.view']);
+        $routes->get('order-details', 'Frontend\Order::order_details', ['as' => 'frontend.orders.order_details.view']);
+    });
+    $routes->get('keranjang', 'Frontend\Keranjang::index', ['as' => 'frontend.keranjang.view']);
     $routes->group('keranjang', static function ($routes) {
         $routes->get('/', 'Frontend\Keranjang::index', ['as' => 'frontend.keranjang.view']);
         $routes->post('addToCart', 'Frontend\Keranjang::addToCart', ['as' => 'frontend.keranjang.addToCart']);

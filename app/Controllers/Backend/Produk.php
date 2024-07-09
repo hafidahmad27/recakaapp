@@ -22,7 +22,7 @@ class Produk extends BaseController
         $data = [
             'title' => 'Kelola Produk | Recaka',
             'content_header' => 'Kelola Produk',
-            'produk' => $this->produkModel->orderBy('kode_produk', 'DESC')->findAll(),
+            'produk' => $this->produkModel->orderBy('id', 'DESC')->findAll(),
         ];
 
         return view('backend/produk/index', $data);
@@ -32,8 +32,8 @@ class Produk extends BaseController
     {
         $data = [
             'title' => 'Form Tambah Produk | HFD APP',
-            'produk' => $this->produkModel->findAll(),
-            'display_kode_produk' => $this->produkModel->generateKodeProduk()
+            'produk' => $this->produkModel->findAll()
+            // 'display_kode_produk' => $this->produkModel->generateKodeProduk()
         ];
 
         return view('backend/produk/form_add', $data);
@@ -60,15 +60,15 @@ class Produk extends BaseController
         ];
 
         if ($this->produkModel->insert($data)) {
-            return redirect()->back()->with('message_add', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Produk <b>' . $data['kode_produk'] . ' - ' . $data['nama_produk'] . '</b> sudah ada! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
-        } else {
             return redirect()->back()->with('message_add', '<div class="alert alert-success alert-dismissible fade show" role="alert">Produk <b>' . $data['kode_produk'] . ' - ' . $data['nama_produk'] . '</b> telah ditambahkan <i class="bi bi-check-circle"></i></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+        } else {
+            return redirect()->back()->with('message_add', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Produk <b>' . $data['kode_produk'] . ' - ' . $data['nama_produk'] . '</b> sudah ada! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         }
     }
 
     public function update()
     {
-        $kode_produk = $this->request->getPost('kode_produk');
+        $id = $this->request->getPost('id');
         $img = $this->request->getFile('foto_produk');
 
         if ($img != null) {
@@ -95,7 +95,7 @@ class Produk extends BaseController
             'foto_produk' => $newName,
         ];
 
-        if ($this->produkModel->update($kode_produk, $data)) {
+        if ($this->produkModel->update($id, $data)) {
             return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Produk <b>' . $data['kode_produk'] . ' - ' . $data['nama_produk'] . '</b>  telah di-update <i class="bi bi-check-circle"></i></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         } else {
             return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Produk <b>' . $data['kode_produk'] . ' - ' . $data['nama_produk'] . '</b> sudah ada! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
@@ -104,22 +104,22 @@ class Produk extends BaseController
 
     public function getEditById()
     {
-        $kode_produk = $this->request->getPost('kode_produk');
-        $produk = $this->produkModel->where('kode_produk', $kode_produk)->first();
+        $id = $this->request->getPost('id');
+        $produk = $this->produkModel->find($id);
 
         return json_encode($produk);
     }
 
     public function delete()
     {
-        $kode_produk = $this->request->getPost('kode_produk');
-        $produk = $this->produkModel->where('kode_produk', $kode_produk)->first();
+        $id = $this->request->getPost('id');
+        $produk = $this->produkModel->find($id);
 
         if ($produk['foto_produk'] != 'default.png') {
             unlink('uploads/' . $produk['foto_produk']);
         }
 
-        if ($this->produkModel->delete($kode_produk)) {
+        if ($this->produkModel->delete($id)) {
             return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Produk <b>' . $produk['kode_produk'] . ' - ' . $produk['nama_produk'] . '</b> telah dihapus <i class="bi bi-check-circle"></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         } else {
             return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Produk <b>' . $produk['kode_produk'] . ' - ' . $produk['nama_produk'] . '</b> tidak dapat dihapus! karena <b>terhubung</b> dengan data lain <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');

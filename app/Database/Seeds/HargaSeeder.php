@@ -10,9 +10,9 @@ class HargaSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
 
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             $data = [
-                'produk_kode'       => 'RB-' . str_pad($i, 3, '0', STR_PAD_LEFT),
+                'produk_id'         => $faker->numberBetween(1, 5),
                 'harga_khusus'      => $faker->randomNumber(6),
                 'member_level_id'   => $faker->numberBetween(1, 3),
                 'status'            => $faker->numberBetween(0, 1),

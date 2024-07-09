@@ -7,12 +7,12 @@ use CodeIgniter\Model;
 class TransaksiModel extends Model
 {
     protected $table            = 'transaksi';
-    // protected $primaryKey       = 'id';
+    protected $primaryKey       = 'kode_transaksi';
     // protected $useAutoIncrement = true;
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    // protected $allowedFields    = [];
+    protected $allowedFields    = ['kode_transaksi', 'member_id', 'tanggal_transaksi', 'total', 'voucher_id', 'catatan'];
 
     // protected bool $allowEmptyInserts = false;
     // protected bool $updateOnlyChanged = true;

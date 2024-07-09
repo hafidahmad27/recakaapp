@@ -10,7 +10,7 @@ class KaryawanSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
 
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 3; $i++) {
             $data = [
                 'nama_karyawan' => $faker->name,
                 'no_telp'       => $faker->phoneNumber,

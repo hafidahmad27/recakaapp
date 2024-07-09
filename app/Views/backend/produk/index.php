@@ -14,6 +14,7 @@
             <table class="table table-striped" id="table1">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th width="13%">Kode Produk</th>
                         <th width="20%">Nama Produk</th>
                         <th class="text-center">Deskripsi</th>
@@ -27,25 +28,20 @@
                     <?php $no = 1;
                     foreach ($produk as $product) : ?>
                         <tr>
+                            <td><?= $no++ ?></td>
                             <td><?= $product['kode_produk'] ?></td>
                             <td><?= $product['nama_produk'] ?></td>
-                            <td style="text-align: justify;"><?= $product['deskripsi'] ?></td>
+                            <td width="30%" style="text-align: justify;"><?= $product['deskripsi'] ?></td>
                             <td><?= number_format($product['harga_umum'], 0, ',', '.'); ?></td>
                             <td><?= number_format($product['jumlah'], 0, ',', '.'); ?></td>
                             <td class="text-center" width="10%">
-                                <?php if (substr($product['foto_produk'], 0, 4) == 'http') : ?>
-                                    <!-- Gambar dari faker seeder -->
-                                    <a href="<?= $product['foto_produk'] ?>" target="_blank">[Foto]</a>
-                                <?php else : ?>
-                                    <!-- Gambar dari direktori public/uploads -->
-                                    <a href="<?= base_url(); ?>uploads/<?= $product['foto_produk'] ?>" target="_blank">[Foto]</a>
-                                <?php endif; ?>
+                                <a href="<?= base_url(); ?>uploads/<?= $product['foto_produk'] ?>" target="_blank">[Foto]</a>
                             </td>
                             <td width="15%" class="text-center">
-                                <button type="button" class="btn btn-primary btn-sm btnEditProduk" data-id="<?= $product['kode_produk'] ?>" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-pencil"></i></button>
+                                <button type="button" class="btn btn-primary btn-sm btnEditProduk" data-id="<?= $product['id'] ?>" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-pencil"></i></button>
                                 <form action="<?= url_to('backend.produk.delete'); ?>" method="post" class="d-inline"> |
                                     <?= csrf_field(); ?>
-                                    <input type="hidden" name="kode_produk" value="<?= $product['kode_produk'] ?>">
+                                    <input type="hidden" name="id" value="<?= $product['id']; ?>">
                                     <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
                                 </form>
                             </td>
@@ -67,15 +63,15 @@
             </div>
             <form action="<?= url_to('backend.produk.update'); ?>" method="post" id="formEditProduk">
                 <div class="modal-body">
-                    <input type="hidden" name="kode_produk">
+                    <input type="hidden" name="id">
                     <div class="row">
                         <div class="form-group col-md-2">
                             <label>Kode Produk</label>
-                            <input id="kode_produk" name="kode_produk" class="form-control" readonly>
+                            <input id="kode_produk" name="kode_produk" maxlength="6" class="form-control" required autofocus>
                         </div>
                         <div class="form-group col-md-5">
                             <label>Nama Produk</label>
-                            <input type="text" id="nama_produk" name="nama_produk" maxlength="50" class="form-control" required autofocus>
+                            <input type="text" id="nama_produk" name="nama_produk" maxlength="50" class="form-control" required>
                         </div>
                         <div class="form-group col-md-3">
                             <label>Harga Umum</label>
@@ -89,7 +85,7 @@
                     <div class="row">
                         <div class="form-group col-md-7">
                             <label>Deskripsi</label>
-                            <textarea id="deskripsi" name="deskripsi" class="form-control" maxlength="255" rows="4"></textarea>
+                            <textarea id="deskripsi" name="deskripsi" class="form-control" rows="4"></textarea>
                         </div>
                         <div class="form-group col-md-5">
                             <label>Foto Produk</label>

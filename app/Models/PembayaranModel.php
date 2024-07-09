@@ -12,7 +12,7 @@ class PembayaranModel extends Model
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    // protected $allowedFields    = [];
+    protected $allowedFields    = ['transaksi_kode', 'foto_bukti_pembayaran', 'status', 'keterangan'];
 
     // protected bool $allowEmptyInserts = false;
     // protected bool $updateOnlyChanged = true;

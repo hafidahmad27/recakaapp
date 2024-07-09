@@ -91,7 +91,7 @@
                     </div>
                     <div class="form-group">
                         <label>Deskripsi</label>
-                        <textarea id="deskripsi" name="deskripsi" class="form-control" maxlength="255" rows="3"></textarea>
+                        <textarea id="deskripsi" name="deskripsi" class="form-control" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">

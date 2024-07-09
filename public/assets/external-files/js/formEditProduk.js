@@ -7,7 +7,7 @@ $(".btnEditProduk").on("click", function() {
     $.ajax({
         url: window.location.origin+'/editProdukById',
         data: {
-            kode_produk: id,
+            id: id,
         },
         method: "post",
         dataType: "json",

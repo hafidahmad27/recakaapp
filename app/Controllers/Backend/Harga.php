@@ -26,7 +26,7 @@ class Harga extends BaseController
             'content_header' => 'Kelola Harga',
             'memberLevel_options' => $this->memberLevelModel->orderBy('id', 'ASC')->findAll(),
             'produk_options' => $this->produkModel->findAll(),
-            'harga' => $this->hargaModel->select('harga.id, produk_kode, nama_produk, harga_umum, harga_khusus, member_level_id, nama_level_member')->join('produk', 'harga.produk_kode = produk.kode_produk')->join('member_levels', 'harga.member_level_id = member_levels.id')->orderBy('id', 'DESC')->findAll()
+            'harga' => $this->hargaModel->select('harga.id, kode_produk, nama_produk, harga_umum, harga_khusus, member_level_id, nama_level_member')->join('produk', 'harga.produk_id = produk.id')->join('member_levels', 'harga.member_level_id = member_levels.id')->orderBy('kode_produk', 'ASC')->findAll()
         ];
 
         return view('backend/harga/index', $data);
@@ -35,16 +35,16 @@ class Harga extends BaseController
     public function insert()
     {
         $data = [
-            'produk_kode' => $this->request->getPost('produk_kode'),
+            'produk_id' => $this->request->getPost('produk_id'),
             'harga_umum' => $this->request->getPost('harga_umum'),
             'harga_khusus' => $this->request->getPost('harga_khusus'),
             'member_level_id' => $this->request->getPost('member_level_id')
         ];
 
-        $nama_produk = $this->hargaModel->select('nama_produk')->join('produk', 'harga.produk_kode = produk.kode_produk')->where('produk_kode', $data['produk_kode'])->first();
+        $nama_produk = $this->hargaModel->select('nama_produk')->join('produk', 'harga.produk_id = produk.id')->where('produk_id', $data['produk_id'])->first();
         $nama_level_member = $this->hargaModel->select('nama_level_member')->join('member_levels', 'harga.member_level_id = member_levels.id')->where('member_level_id', $data['member_level_id'])->first();
 
-        $cek_produk = $this->hargaModel->where('produk_kode', $data['produk_kode'])
+        $cek_produk = $this->hargaModel->where('produk_id', $data['produk_id'])
             ->where('member_level_id', $data['member_level_id'])
             ->first();
 
@@ -61,7 +61,7 @@ class Harga extends BaseController
     public function update()
     {
         $id = $this->request->getPost('id');
-        $harga = $this->hargaModel->select('nama_produk, nama_level_member')->join('produk', 'harga.produk_kode = produk.kode_produk')->join('member_levels', 'harga.member_level_id = member_levels.id')->find($id);
+        $harga = $this->hargaModel->select('nama_produk, nama_level_member')->join('produk', 'harga.produk_id = produk.id')->join('member_levels', 'harga.member_level_id = member_levels.id')->find($id);
 
         $data = [
             'harga_umum' => $this->request->getPost('harga_umum'),
@@ -79,7 +79,7 @@ class Harga extends BaseController
     public function getEditById()
     {
         $id = $this->request->getPost('id');
-        $harga = $this->hargaModel->select('harga.id, nama_produk, harga_umum, harga_khusus, member_level_id, nama_level_member')->join('produk', 'harga.produk_kode = produk.kode_produk')->join('member_levels', 'harga.member_level_id = member_levels.id')->find($id);
+        $harga = $this->hargaModel->select('harga.id, nama_produk, harga_umum, harga_khusus, member_level_id, nama_level_member')->join('produk', 'harga.produk_id = produk.id')->join('member_levels', 'harga.member_level_id = member_levels.id')->find($id);
 
         return json_encode($harga);
     }
@@ -87,7 +87,7 @@ class Harga extends BaseController
     public function delete()
     {
         $id = $this->request->getPost('id');
-        $harga = $this->hargaModel->select('nama_produk, nama_level_member')->join('produk', 'harga.produk_kode = produk.kode_produk')->join('member_levels', 'harga.member_level_id = member_levels.id')->find($id);
+        $harga = $this->hargaModel->select('nama_produk, nama_level_member')->join('produk', 'harga.produk_id = produk.id')->join('member_levels', 'harga.member_level_id = member_levels.id')->find($id);
 
         if ($this->hargaModel->delete($id)) {
             return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Produk <b>' . $harga['nama_produk'] . ' - ' . $harga['nama_level_member'] . '</b> telah dihapus <i class="bi bi-check-circle"></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');

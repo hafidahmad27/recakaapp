@@ -6,18 +6,15 @@
 
 <div class="collapse navbar-collapse" id="navbarsFurni">
     <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-        <li class="nav-item active">
-            <a class="nav-link" href="<?= url_to('frontend.page.home.view'); ?>">Home</a>
+        <li class="nav-item <?= url_is('member') ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?= url_to('frontend.produk.view'); ?>">Home</a>
         </li>
-        <li><a class="nav-link" href="<?= url_to('frontend.page.shop.view'); ?>">Shop</a></li>
-        <li><a class="nav-link" href="<?= url_to('frontend.page.about.view'); ?>">About us</a></li>
-        <li><a class="nav-link" href="<?= url_to('frontend.page.services.view'); ?>">Services</a></li>
-        <li><a class="nav-link" href="<?= url_to('frontend.page.blog.view'); ?>">Blog</a></li>
-        <li><a class="nav-link" href="<?= url_to('frontend.page.contact.view'); ?>">Contact us</a></li>
+        <li class="nav-item <?= url_is('member/cek-voucher') ? 'active' : ''; ?>"> <a class=" nav-link" href="<?= url_to('frontend.cek_voucher.view'); ?>">Cek Voucher</a></li>
+        <li class="nav-item <?= url_is('member/orders') ? 'active' : ''; ?>"> <a class=" nav-link" href="<?= url_to('frontend.orders.view'); ?>">Riwayat Order</a></li>
     </ul>
 
     <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-        <li><a class="nav-link" href="#"><img src="<?= base_url(); ?>assets/furni-1.0.0/images/user.svg"></a></li>
-        <li><a class="nav-link" href="<?= url_to('frontend.page.cart.view'); ?>"><img src="<?= base_url(); ?>assets/furni-1.0.0/images/cart.svg"></a></li>
+        <li class="nav-link">User &nbsp;<img src="<?= base_url(); ?>assets/furni-1.0.0/images/user.svg"></li>
+        <li><a class="nav-link" href="<?= url_to('frontend.keranjang.view'); ?>"><img src="<?= base_url(); ?>assets/furni-1.0.0/images/cart.svg"></a></li>
     </ul>
 </div>

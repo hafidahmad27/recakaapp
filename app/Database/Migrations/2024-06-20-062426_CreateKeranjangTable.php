@@ -14,9 +14,9 @@ class CreateKeranjangTable extends Migration
                 'type'       => 'INT',
                 'constraint' => '9',
             ],
-            'produk_kode' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '6',
+            'produk_id' => [
+                'type'          => 'INT',
+                'constraint'    => '9',
             ],
             'jumlah' => [
                 'type'       => 'INT',
@@ -24,7 +24,7 @@ class CreateKeranjangTable extends Migration
             ],
         ]);
         $this->forge->addForeignKey('member_id', 'members', 'id');
-        $this->forge->addForeignKey('produk_kode', 'produk', 'kode_produk');
+        $this->forge->addForeignKey('produk_id', 'produk', 'id');
         $this->forge->createTable('keranjang');
     }
 

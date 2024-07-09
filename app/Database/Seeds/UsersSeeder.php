@@ -10,7 +10,7 @@ class UsersSeeder extends Seeder
     {
         $data = [
             [
-                'karyawan_id' => '4',
+                'karyawan_id' => '1',
                 'username' => 'admin',
                 'password' => password_hash('admin', PASSWORD_DEFAULT),
                 'role' => '1'
