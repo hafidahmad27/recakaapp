@@ -12,3 +12,7 @@
 2. php spark db:create db_recakaapp
 3. php spark migrate
 4. php spark db:seed DatabaseSeeder
+
+## Akses app
+1. Halaman Backend -> /admin
+2. Halaman Frontend -> /member
