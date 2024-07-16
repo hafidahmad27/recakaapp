@@ -23,7 +23,7 @@
                     foreach ($members as $member) : ?>
                         <tr class="<?= $member['status'] != 0 ? '' : 'bg-dark'; ?>">
                             <td><?= $no++; ?></td>
-                            <td><?= $member['member_level_id'] == null ? 'Umum' : $member['nama_level_member']; ?></td>
+                            <td><?= $member['nama_level_member']; ?></td>
                             <td><?= $member['nama_member']; ?></td>
                             <td><?= $member['no_telp']; ?></td>
                             <td><?= $member['username']; ?></td>

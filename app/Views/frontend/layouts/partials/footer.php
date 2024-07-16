@@ -1,4 +1,4 @@
-<div class="border-top copyright">
+<div class="copyright ml-auto">
     <div class="row pt-4">
         <div class="col-lg-6">
             <p class="mb-2 text-center text-lg-start">Copyright &copy;<script>

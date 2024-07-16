@@ -64,6 +64,7 @@
             <form action="<?= url_to('backend.produk.update'); ?>" method="post" id="formEditProduk">
                 <div class="modal-body">
                     <input type="hidden" name="id">
+                    <!-- <input type="hidden" id="oldName" name="oldName"> -->
                     <div class="row">
                         <div class="form-group col-md-2">
                             <label>Kode Produk</label>
@@ -89,8 +90,8 @@
                         </div>
                         <div class="form-group col-md-5">
                             <label>Foto Produk</label>
-                            <input type="hidden" id="oldName" name="oldName">
-                            <input type="file" id="foto_produk" name="foto_produk" class="form-control">
+                            <!-- <input type="hidden" id="oldName" name="oldName"> -->
+                            <input type="file" id="foto_produk" name="foto_produk" value="timpa" class="form-control">
                         </div>
                     </div>
                 </div>

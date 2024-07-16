@@ -34,6 +34,7 @@ class CreateProdukTable extends Migration
             'foto_produk' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '128',
+                'null'       => true,
             ],
             'created_at' => [
                 'type'       => 'TIMESTAMP',

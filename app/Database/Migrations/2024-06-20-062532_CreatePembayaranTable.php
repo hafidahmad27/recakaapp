@@ -19,6 +19,7 @@ class CreatePembayaranTable extends Migration
             'foto_bukti_pembayaran' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '128',
+                'null'       => true,
             ],
             'status' => [
                 'type'       => 'BOOLEAN',

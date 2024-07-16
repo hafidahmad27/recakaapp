@@ -70,20 +70,15 @@ class Produk extends BaseController
     {
         $id = $this->request->getPost('id');
         $img = $this->request->getFile('foto_produk');
+        $oldImg = $this->produkModel->find($id);
 
-        if ($img != null) {
-            if ($img->getError() == 4) {
-                $newName = 'default.png';
-            } else {
-                $newName = $img->getRandomName();
-                $img->move('uploads', $newName);
-
-                if ($this->request->getVar('oldName') != 'default.png') {
-                    unlink('uploads/' . $this->request->getVar('oldName'));
-                }
-            }
-        } else {
+        if ($oldImg['foto_produk'] == null) {
             $newName = 'default.png';
+        } elseif ($oldImg['foto_produk'] != null) {
+            $newName = $oldImg['foto_produk'];
+            // }
+        } elseif ($img != null) {
+            $newName = $img;
         }
 
         $data = [

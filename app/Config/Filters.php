@@ -14,6 +14,8 @@ use CodeIgniter\Filters\PerformanceMetrics;
 use CodeIgniter\Filters\SecureHeaders;
 use App\Filters\UserLoggedIn;
 use App\Filters\UserNotLoggedIn;
+use App\Filters\MemberLoggedIn;
+use App\Filters\MemberNotLoggedIn;
 
 class Filters extends BaseFilters
 {
@@ -37,7 +39,9 @@ class Filters extends BaseFilters
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
         'userLoggedIn'    => UserLoggedIn::class,
-        'userNotLoggedIn' => UserNotLoggedIn::class
+        'userNotLoggedIn' => UserNotLoggedIn::class,
+        'memberLoggedIn'    => MemberLoggedIn::class,
+        'memberNotLoggedIn' => MemberNotLoggedIn::class
     ];
 
     /**

@@ -11,15 +11,23 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h3 class="card-title">Card title</h3>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item mt-4">
-                                <h5>Rp </h5>
-                            </li>
-                            <li class="list-group-item">
-                                <h6 style="text-align: justify;">Deskripsi : Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi debitis beatae cum sunt nisi ipsam ab architecto modi, minima voluptatum illum molestias delectus, explicabo inventore, nostrum ratione dicta. Enim, molestias?</h6>
-                            </li>
-                        </ul>
+                        <?php foreach ($produk as $prod) : ?>
+                            <form action="<?= url_to('frontend.keranjang.addToCart'); ?>" method="post">
+                                <input type="hidden" name="produk_id" value="<?= $prod['id']; ?>"> <!-- Hidden input for produk_id -->
+                                <h3 class="card-title"><?= $prod['nama_produk']; ?></h3>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item mt-4">
+                                        <h5>Rp <?= number_format($prod['harga_umum'], 0, ',', '.'); ?> </h5>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <h6 style="text-align: justify;">Deskripsi : <?= $prod['deskripsi']; ?></h6>
+                                        <button type="submit" class="btn btn-black btn-sm mt-4">
+                                            <span class="fa fa-plus"></span> Add to Cart
+                                        </button>
+                                    </li>
+                                </ul>
+                            </form>
+                        <?php endforeach ?>
                     </div>
                 </div>
             </div>

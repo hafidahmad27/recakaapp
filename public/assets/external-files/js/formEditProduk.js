@@ -19,8 +19,8 @@ $(".btnEditProduk").on("click", function() {
             $("#harga_umum").val(data.harga_umum);
             $("#jumlah").val(data.jumlah);
             $("#deskripsi").val(data.deskripsi);
-            $("#oldName").val(data.foto_produk);
-            $("#foto_produk").val(data.foto_produk);
+            // $("#oldName").val(data.foto_produk);
+            // $("#foto_produk").val(data.foto_produk);
         },
     });
 });

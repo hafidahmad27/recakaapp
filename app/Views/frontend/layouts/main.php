@@ -29,11 +29,11 @@
     <?= $this->renderSection('content') ?>
 
     <!-- Start Footer Section -->
-    <footer class="footer-section">
-        <div class="container relative">
-            <?= $this->include('frontend/layouts/partials/footer') ?>
-        </div>
-    </footer>
+    <!-- <footer class="footer-section"> -->
+    <div class="container mt-3">
+        <?= $this->include('frontend/layouts/partials/footer') ?>
+    </div>
+    <!-- </footer> -->
     <!-- End Footer Section -->
 
     <?= $this->include('frontend/layouts/partials/script') ?>

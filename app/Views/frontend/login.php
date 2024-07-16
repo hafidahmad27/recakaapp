@@ -25,10 +25,16 @@
                         <div class="row mb-5">
                             <h1>Login Member</h1>
                         </div>
-                        <form action="" method="post">
+                        <?php if (session()->getFlashdata('error')) : ?>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <?= session()->getFlashdata('error'); ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <?php endif; ?>
+                        <form action="<?= url_to('frontend.login'); ?>" method="post">
                             <div class="form-group mb-3">
                                 <label class="text-black">Username</label>
-                                <input type="text" name="username" maxlength="25" class="form-control">
+                                <input type="text" name="username" maxlength="25" class="form-control" value="<?= old('username'); ?>" autofocus>
                             </div>
                             <div class="form-group mb-5">
                                 <label class="text-black">Password</label>

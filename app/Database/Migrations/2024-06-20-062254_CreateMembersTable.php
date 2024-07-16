@@ -19,6 +19,7 @@ class CreateMembersTable extends Migration
             'username' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '25',
+                'unique'        => true,
             ],
             'password' => [
                 'type'       => 'CHAR',
@@ -31,7 +32,7 @@ class CreateMembersTable extends Migration
             'member_level_id' => [
                 'type'          => 'INT',
                 'constraint'    => '9',
-                'null'          => true,
+                'default'       => '1',
             ],
             'status' => [
                 'type'          => 'BOOLEAN',

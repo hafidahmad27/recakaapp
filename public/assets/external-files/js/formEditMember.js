@@ -14,7 +14,7 @@ $(".btnEditMember").on("click", function() {
         success: function (data) {
             console.log(data);
             $("#formEditMember input[type=hidden]").val(data.id);
-            $("#nama_level_member").val(data.nama_level_member || "Umum");
+            $("#nama_level_member").val(data.nama_level_member);
             $("#nama_member").val(data.nama_member);
             $("#username").val(data.username);
             $("#no_telp").val(data.no_telp);

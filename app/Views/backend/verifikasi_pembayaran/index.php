@@ -13,7 +13,7 @@
                         <th>Kode Transaksi</th>
                         <th>Nama Member</th>
                         <th>Total Bayar</th>
-                        <th>Foto</th>
+                        <th class="text-center">Foto</th>
                         <th class="text-center">Status</th>
                         <th class="text-center">Action</th>
                         <th>Keterangan</th>
@@ -27,7 +27,13 @@
                             <td><a href="<?= url_to('backend.verifikasi_pembayaran.detail_transaksi.view', $pmbyrn['transaksi_kode']); ?>" class="text-bold" style="font-size: 13pt;"><u><?= $pmbyrn['transaksi_kode']; ?></u></a></td>
                             <td><?= $pmbyrn['nama_member'] ?></td>
                             <td><?= number_format($pmbyrn['total'] - ($pmbyrn['diskon'] / 100) * $pmbyrn['total'], 0, ',', '.') ?></td>
-                            <td><a href="<?= base_url(); ?>uploads/<?= $pmbyrn['foto_bukti_pembayaran']; ?>" target="_blank" title="Tautan ke bukti pembayaran">[Foto]</a></td>
+                            <td class="text-center">
+                                <?php if ($pmbyrn['foto_bukti_pembayaran'] == null) : ?>
+                                    Tidak ada
+                                <?php else : ?>
+                                    <a href="<?= base_url(); ?>uploads/<?= $pmbyrn['foto_bukti_pembayaran']; ?>" target="_blank" title="Tautan ke bukti pembayaran">[Foto]</a>
+                                <?php endif ?>
+                            </td>
                             <td class="text-center">
                                 <?php if ($pmbyrn['status'] == null) : ?>
                                     <span class="badge bg-warning">Pending</span>

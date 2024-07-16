@@ -25,18 +25,24 @@
                         <div class="row mb-5">
                             <h1>Register Member</h1>
                         </div>
-                        <form action="" method="post">
+                        <?php if (session()->getFlashdata('error')) : ?>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <?= session()->getFlashdata('error'); ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <?php endif; ?>
+                        <form action="<?= url_to('frontend.register.process'); ?>" method="post">
                             <div class="row mb-3">
                                 <div class="col-md-8">
                                     <div class="form-group">
                                         <label class="text-black">Nama Member</label>
-                                        <input type="text" name="nama_member" maxlength="50" class="form-control">
+                                        <input type="text" name="nama_member" value="<?= old('nama_member'); ?>" maxlength=" 50" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="form-group">
                                         <label class="text-black">No. Telp</label>
-                                        <input type="number" name="no_telp" min="0" maxlength="14" oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control">
+                                        <input type="number" name="no_telp" value="<?= old('no_telp'); ?>" min=" 0" maxlength="14" oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -44,13 +50,13 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label class="text-black">Username</label>
-                                        <input type="text" name="username" maxlength="25" class="form-control">
+                                        <input type="text" name="username" maxlength="25" value="<?= old('username'); ?>" class=" form-control" required>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label class="text-black">Password</label>
-                                        <input type="password" name="password" maxlength="25" class="form-control">
+                                        <input type="password" name="password" maxlength="25" class="form-control" required>
                                     </div>
                                 </div>
                             </div>

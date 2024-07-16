@@ -11,26 +11,23 @@
 						<thead>
 							<tr>
 								<th>#</th>
-								<th>Produk</th>
-								<th>Harga</th>
-								<th>Qty</th>
+								<th>Tanggal Transaksi</th>
+								<th>Kode Transaksi</th>
 								<th>Total</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>
-									1
-								</td>
-								<td class="product-name">
-									<h2 class="h5 text-black">Product 1</h2>
-								</td>
-								<td>$49.00</td>
-								<td>10</td>
-								<td>$49.00</td>
-								<td><a href="<?= url_to('frontend.orders.order_details.view'); ?>" class="btn btn-black btn-sm">Detail</a></td>
-							</tr>
+							<?php $no = 1;
+							foreach ($orders as $order) : ?>
+								<tr>
+									<td><?= $no++; ?></td>
+									<td><?= date('d M Y', strtotime($order['tanggal_transaksi'])) ?></td>
+									<td><?= $order['kode_transaksi']; ?></td>
+									<td><?= number_format($order['total'], 0, ',', '.'); ?></td>
+									<td><a href="<?= url_to('frontend.orders.order_details.view', $order['kode_transaksi']); ?>" class="btn btn-black btn-sm">Detail</a></td>
+								</tr>
+							<?php endforeach ?>
 						</tbody>
 					</table>
 				</div>
