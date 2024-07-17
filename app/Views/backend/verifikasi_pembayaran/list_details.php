@@ -9,12 +9,13 @@
                 <p class="card-text">
                     Kode Transaksi : <?= $transaction['kode_transaksi'] ?> <br>
                     Nama Member : <?= $transaction['nama_member'] ?> <br>
+                    No Telp : <?= $transaction['no_telp'] ?> <br>
                     Tanggal Transaksi : <?= date('d M Y', strtotime($transaction['tanggal_transaksi'])) ?> <br>
                     Status :
                     <?php if ($transaction['status'] == null) : ?>
                         <i class="fw-bold text-warning">Pending</i>
                     <?php elseif ($transaction['status'] == 0) : ?>
-                        <i class="fw-bold text-danger">Dibatalkan Penjual</i>
+                        <i class="fw-bold text-danger">Dibatalkan</i>
                     <?php elseif ($transaction['status'] == 1) : ?>
                         <i class="fw-bold">Berhasil</i>
                     <?php endif ?>
@@ -48,7 +49,7 @@
                             if ($bonus > 0) : ?>
                                 <tr>
                                     <td>[Bonus <?= $transaction_detail['nama_produk']; ?>]</td>
-                                    <td class="text-end"><?= $bonus; ?> bundle</td>
+                                    <td class="text-end">[<?= $bonus; ?> bundle]</td>
                                     <td class="text-end">0</td>
                                     <td class="text-end">0</td>
                                 </tr>

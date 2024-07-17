@@ -14,9 +14,6 @@
                         <img src="<?= base_url(); ?>uploads/<?= $product['foto_produk'] ?>" class="img-fluid product-thumbnail" alt="Product Image">
                         <h3 class="product-title"><?= $product['nama_produk']; ?></h3>
                         <strong class="product-price"><?= number_format($product['harga_umum'], 0, ',', '.'); ?></strong>
-                        <span class="icon-cross">
-                            <img src="<?= base_url(); ?>assets/furni-1.0.0/images/cross.svg" class="img-fluid">
-                        </span>
                     </a>
                 </div>
             <?php endforeach ?>

@@ -26,12 +26,12 @@ class Produk extends BaseController
         return view('frontend/produk', $data);
     }
 
-    public function produk_details($anu)
+    public function produk_details($nama_produk)
     {
         $data = [
             'title' => 'Detail Produk | Recaka',
             'content_header' => 'Detail Produk',
-            'produk' => $this->produkModel->where('nama_produk', $anu)->findAll()
+            'produk' => $this->produkModel->where('nama_produk', $nama_produk)->findAll()
         ];
 
         return view('frontend/produk_details', $data);

@@ -27,8 +27,8 @@ class VerifikasiPembayaran extends BaseController
             'pembayaran' => $this->pembayaranModel->select('pembayaran.id, transaksi_kode, nama_member, tanggal_transaksi, pembayaran.status, total, foto_bukti_pembayaran, keterangan, kode_voucher, diskon')
                 ->join('transaksi', 'pembayaran.transaksi_kode = transaksi.kode_transaksi')
                 ->join('members', 'transaksi.member_id = members.id')
-                ->join('vouchers', 'transaksi.voucher_id = vouchers.id')
-                // ->orderBy('(pembayaran.status * -1)', 'ASC')
+                ->join('vouchers', 'transaksi.voucher_id = vouchers.id', 'left')
+                ->orderBy('pembayaran.id', 'DESC')
                 ->findAll()
         ];
 
@@ -83,7 +83,7 @@ class VerifikasiPembayaran extends BaseController
             'content_header' => 'Daftar Transaksi',
             'transaksi' => $this->transaksiModel
                 ->join('members', 'transaksi.member_id = members.id')
-                ->join('vouchers', 'transaksi.voucher_id = vouchers.id')
+                ->join('vouchers', 'transaksi.voucher_id = vouchers.id', 'left')
                 ->join('pembayaran', 'pembayaran.transaksi_kode = transaksi.kode_transaksi')
                 ->orderBy('tanggal_transaksi', 'DESC')->findAll()
         ];
@@ -96,9 +96,9 @@ class VerifikasiPembayaran extends BaseController
         $data = [
             'title' => 'Detail Transaksi | Recaka',
             'content_header' => 'Detail Transaksi',
-            'transaksi' => $this->transaksiModel->select('kode_transaksi, nama_member, tanggal_transaksi, pembayaran.status, total, kode_voucher, diskon')
+            'transaksi' => $this->transaksiModel->select('kode_transaksi, nama_member, no_telp, tanggal_transaksi, pembayaran.status, total, kode_voucher, diskon')
                 ->join('members', 'transaksi.member_id = members.id')
-                ->join('vouchers', 'transaksi.voucher_id = vouchers.id')
+                ->join('vouchers', 'transaksi.voucher_id = vouchers.id', 'left')
                 ->join('pembayaran', 'pembayaran.transaksi_kode = transaksi.kode_transaksi')
                 ->where('kode_transaksi', $kode_transaksi)->findAll(),
             'transaksi_detail' => $this->transaksiDetailModel->where('transaksi_kode', $kode_transaksi)->findAll()

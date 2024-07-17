@@ -26,7 +26,7 @@
                             <td><?= $no++ ?></td>
                             <td><a href="<?= url_to('backend.verifikasi_pembayaran.detail_transaksi.view', $pmbyrn['transaksi_kode']); ?>" class="text-bold" style="font-size: 13pt;"><u><?= $pmbyrn['transaksi_kode']; ?></u></a></td>
                             <td><?= $pmbyrn['nama_member'] ?></td>
-                            <td><?= number_format($pmbyrn['total'] - ($pmbyrn['diskon'] / 100) * $pmbyrn['total'], 0, ',', '.') ?></td>
+                            <td class="text-end"><?= number_format($pmbyrn['total'] - ($pmbyrn['diskon'] / 100) * $pmbyrn['total'], 0, ',', '.') ?></td>
                             <td class="text-center">
                                 <?php if ($pmbyrn['foto_bukti_pembayaran'] == null) : ?>
                                     Tidak ada
@@ -56,7 +56,7 @@
                                     <?php endif ?>
                                 </form>
                             </td>
-                            <td width="25%">
+                            <td width="20%">
                                 <form action="<?= url_to('backend.verifikasi_pembayaran.update'); ?>" method="post">
                                     <div class="input-group">
                                         <div class="d-none"><?= $pmbyrn['keterangan']; ?></div>

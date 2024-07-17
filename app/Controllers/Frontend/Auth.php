@@ -50,7 +50,7 @@ class Auth extends BaseController
                 return redirect()->back()->with('error', 'Member <b>' . $member['username'] . '</b> tidak aktif!');
             }
         } else {
-            return redirect()->back()->with('error', '<b>Username tidak ditemukan!</b>')->withInput();
+            return redirect()->back()->with('error', '<b>Username tidak ditemukan!</b>');
         }
     }
 

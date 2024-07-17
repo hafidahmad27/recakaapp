@@ -14,6 +14,7 @@ class CreateProdukTable extends Migration
             'kode_produk' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '6',
+                'unique'     => true,
             ],
             'nama_produk' => [
                 'type'       => 'VARCHAR',

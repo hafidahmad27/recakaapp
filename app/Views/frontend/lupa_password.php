@@ -25,22 +25,33 @@
                         <div class="row mb-5">
                             <h1>Form Reset Password</h1>
                         </div>
-                        <form action="" method="post">
+                        <?php if (session()->has('success')) : ?>
+                            <div class="alert alert-success" role="alert">
+                                <?= session('success') ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if (session()->has('error')) : ?>
+                            <div class="alert alert-danger" role="alert">
+                                <?= session('error') ?>
+                            </div>
+                        <?php endif; ?>
+                        <form action="<?= url_to('frontend.changePassword'); ?>" method="post">
                             <div class="form-group mb-3">
                                 <label class="text-black">Username</label>
-                                <input type="text" name="username" maxlength="25" class="form-control">
+                                <input type="text" name="username" maxlength="25" value="<?= old('username'); ?>" class="form-control" autofocus required>
                             </div>
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label class="text-black">Password Lama</label>
-                                        <input type="password" name="password_old" maxlength="25" class="form-control">
+                                        <input type="password" name="password_old" maxlength="25" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label class="text-black">Password Baru</label>
-                                        <input type="password" name="password_new" maxlength="25" class="form-control">
+                                        <input type="password" name="password_new" maxlength="25" class="form-control" required>
                                     </div>
                                 </div>
                             </div>

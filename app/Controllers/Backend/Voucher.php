@@ -20,7 +20,7 @@ class Voucher extends BaseController
         $data = [
             'title' => 'Kelola Voucher | Recaka',
             'content_header' => 'Kelola Voucher',
-            'vouchers' => $this->voucherModel->findAll()
+            'vouchers' => $this->voucherModel->orderBy('id', 'DESC')->findAll()
         ];
 
         return view('backend/vouchers/index', $data);

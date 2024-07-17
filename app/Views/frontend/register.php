@@ -50,7 +50,7 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label class="text-black">Username</label>
-                                        <input type="text" name="username" maxlength="25" value="<?= old('username'); ?>" class=" form-control" required>
+                                        <input type="text" name="username" maxlength="25" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="col-6">

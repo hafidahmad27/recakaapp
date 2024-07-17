@@ -16,8 +16,7 @@
                     <th>#</th>
                     <th>Kode Voucher</th>
                     <th>Diskon (%)</th>
-                    <th>Tanggal Mulai</th>
-                    <th>Tanggal Berakhir</th>
+                    <th>Tanggal Berlaku</th>
                     <th>Deskripsi</th>
                     <th class="text-center">Action</th>
                 </tr>
@@ -29,10 +28,9 @@
                         <td><?= $no++; ?></td>
                         <td><?= $member['kode_voucher']; ?></td>
                         <td><?= $member['diskon']; ?>%</td>
-                        <td><?= $member['tanggal_mulai']; ?></td>
-                        <td><?= $member['tanggal_berakhir']; ?></td>
-                        <td style="text-align: justify;"><?= $member['deskripsi']; ?></td>
-                        <td width="25%" align="center">
+                        <td><?= date('d M Y H:i', strtotime($member['tanggal_mulai'])); ?> -<br> <?= date('d M Y H:i', strtotime($member['tanggal_berakhir'])); ?></td>
+                        <td style="text-align: justify;" width="35%"><?= $member['deskripsi']; ?></td>
+                        <td width="15%" align="center">
                             <button type="button" class="btn btn-primary btn-sm btnEditVoucher" data-id="<?= $member['id'] ?>" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-pencil"></i></button>
                             <form action="<?= url_to('backend.voucher.delete'); ?>" method="post" class="d-inline"> |
                                 <?= csrf_field(); ?>

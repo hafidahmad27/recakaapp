@@ -6,9 +6,11 @@
     <div class="container">
         <div class="card mb-3" style="min-height: 345px;">
             <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="..." class="img-fluid rounded-start" alt="...">
-                </div>
+                <?php foreach ($produk as $product) : ?>
+                    <div class="col-md-4">
+                        <img src="<?= base_url(); ?>uploads/<?= $product['foto_produk'] ?>" class="img-fluid rounded-start" width="100%" alt="...">
+                    </div>
+                <?php endforeach ?>
                 <div class="col-md-8">
                     <div class="card-body">
                         <?php foreach ($produk as $prod) : ?>

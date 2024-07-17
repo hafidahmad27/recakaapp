@@ -1,5 +1,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="<?= base_url(); ?>assets/assetswebprofil/img/favicon.png">
+
 <link rel="stylesheet" href="<?= base_url(); ?>assets/mazer/extensions/simple-datatables/style.css">
 <link rel="stylesheet" href="<?= base_url(); ?>assets/mazer/compiled/css/table-datatable.css">
 <link rel="stylesheet" href="<?= base_url(); ?>assets/mazer/compiled/css/app.css">

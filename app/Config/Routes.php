@@ -60,6 +60,7 @@ $routes->group('backend', ['filter' => 'userNotLoggedIn'], static function ($rou
     });
     $routes->group('reports', static function ($routes) {
         $routes->get('/', 'Backend\Report::index', ['as' => 'backend.report.view']);
+        $routes->post('filter', 'Backend\Report::filter', ['as' => 'backend.report.filter']);
     });
     $routes->group('karyawan', static function ($routes) {
         $routes->get('/', 'Backend\Karyawan::index', ['as' => 'backend.karyawan.view']);
@@ -99,6 +100,7 @@ $routes->get('logout', 'Frontend\Auth::logout', ['as' => 'frontend.logout']);
 $routes->get('register', 'Frontend\Auth::register', ['as' => 'frontend.register.view']);
 $routes->post('register', 'Frontend\Auth::register_process', ['as' => 'frontend.register.process']);
 $routes->get('lupa-password', 'Frontend\Auth::lupa_password', ['as' => 'frontend.lupa_password.view']);
+$routes->post('changePassword', 'Frontend\Setting::changePassword', ['as' => 'frontend.changePassword']);
 
 // Routes Frontend
 $routes->group('member', ['filter' => 'memberNotLoggedIn'], static function ($routes) {

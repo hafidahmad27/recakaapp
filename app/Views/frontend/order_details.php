@@ -47,7 +47,7 @@
                                 if ($bonus > 0) : ?>
                                     <tr>
                                         <td>[Bonus <?= $transaction_detail['nama_produk']; ?>]</td>
-                                        <td class="text-end"><?= $bonus; ?> bundle</td>
+                                        <td class="text-end">[<?= $bonus; ?> bundle]</td>
                                         <td class="text-end">0</td>
                                         <td class="text-end">0</td>
                                     </tr>
@@ -87,7 +87,12 @@
                             <h5 class="text-dark">Pakai voucher?</h5>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" name="kode_voucher" maxlength="25" value="<?= $transaction['kode_voucher'] ?? '' ?>" class="form-control py-3" placeholder="Masukkan kode voucher disini.." <?= $transaction['foto_bukti_pembayaran'] != null ? 'disabled' : ''; ?>>
+                            <input type="text" name="kode_voucher" maxlength="25" value="<?= old('kode_voucher', $transaction['kode_voucher']) ?>" class="form-control py-3 <?= session('error') ? 'is-invalid' : 'is-valid'; ?>" placeholder="Masukkan kode voucher disini.." <?= $transaction['foto_bukti_pembayaran'] != null ? 'disabled' : ''; ?>>
+                            <?php if (session('error')) : ?>
+                                <div class="invalid-feedback">
+                                    <?= session('error'); ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
                         <div class="col-md-2">
                             <button type="submit" class="btn btn-black" <?= $transaction['foto_bukti_pembayaran'] != null ? 'disabled' : ''; ?>>Gunakan</button>
@@ -104,7 +109,7 @@
                             <h5 class="text-dark">Ada catatan tambahan? (opsional)</h5>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" name="catatan" maxlength="100" value="<?= $transaction['catatan'] ?? '' ?>" class="form-control py-3" placeholder="Tulis catatan disini (tidak boleh lebih dari 100 karakter)" maxlength="100" <?= $transaction['foto_bukti_pembayaran'] != null ? 'disabled' : ''; ?>>
+                            <input type="text" name="catatan" maxlength="100" value="<?= $transaction['catatan'] ?? '' ?>" class="form-control py-3 <?= $transaction['catatan'] != null ? 'is-valid' : '' ?>" placeholder="Tulis disini.. (max: 100 karakter)" maxlength="100" <?= $transaction['foto_bukti_pembayaran'] != null ? 'disabled' : ''; ?>>
                         </div>
                         <div class="col-md-2">
                             <button type="submit" class="btn btn-black" <?= $transaction['foto_bukti_pembayaran'] != null ? 'disabled' : ''; ?>>Simpan</button>
@@ -128,19 +133,30 @@
                     <form action="<?= url_to('frontend.order.uploadBuktiBayar'); ?>" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="transaksi_kode" value="<?= $transaction['kode_transaksi']; ?>">
                         <?php if ($transaction['foto_bukti_pembayaran'] == null && $transaction['status'] == null) : ?>
-                            <input type="file" name="foto_bukti_pembayaran" class="form-control mt-4">
-                            <button type="submit" class="btn btn-outline-secondary mt-3">Upload bukti bayar</button>
+                            <input type="file" name="foto_bukti_pembayaran" class="form-control mt-4" required>
+                            <button type="submit" class="btn btn-outline-secondary mt-3"><i class="fas fa-upload"></i> Upload bukti bayar</button>
                         <?php elseif ($transaction['foto_bukti_pembayaran'] != null && $transaction['status'] == null) : ?>
-                            <input type="file" name="foto_bukti_pembayaran" class="form-control mt-4" disabled>
-                            <button type="submit" class="btn btn-outline-secondary mt-3" disabled>Menunggu Konfirmasi</button>
+                            <input type="file" name="foto_bukti_pembayaran" class="form-control mt-4" disabled required>
+                            <button type="submit" class="btn btn-outline-secondary mt-3" disabled><i class="fas fa-spinner"></i> Menunggu Konfirmasi</button>
                         <?php elseif ($transaction['foto_bukti_pembayaran'] != null && $transaction['status'] == 0) : ?>
-                            <input type="file" name="foto_bukti_pembayaran" class="form-control mt-4">
-                            <button type="submit" class="btn btn-outline-secondary mt-3">Upload bukti bayar</button>
+                            <input type="file" name="foto_bukti_pembayaran" class="form-control mt-4" required>
+                            <button type="submit" class="btn btn-outline-secondary mt-3"><i class="fas fa-upload"></i> Upload bukti bayar</button>
                         <?php elseif ($transaction['foto_bukti_pembayaran'] != null && $transaction['status'] == 1) : ?>
-                            <input type="file" class="form-control mt-4" disabled>
+                            <input type="file" class="form-control mt-4" disabled required>
                             <button type="submit" class="btn btn-outline-secondary mt-3" disabled>Pembayaran terverifikasi ✓</button>
                         <?php endif ?>
                     </form>
+                    <hr>
+                    Informasi lebih lanjut hubungi: <br>
+                    <?php foreach ($karyawan as $kry) :
+                        $no_telp = $kry['no_telp'];
+                        if (substr($no_telp, 0, 1) == '0') {
+                            $no_telp = '62' . substr($no_telp, 1);
+                        }
+                    ?>
+                        <?= $kry['nama_karyawan']; ?> (<a href="https://wa.me/<?= $no_telp; ?>" target="_blank"><?= $kry['no_telp']; ?></a>) <br>
+                    <?php endforeach; ?>
+
                 </div>
             </div>
         </div>

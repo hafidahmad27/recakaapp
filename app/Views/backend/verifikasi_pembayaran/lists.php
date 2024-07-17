@@ -15,6 +15,7 @@
                         <th>Tanggal</th>
                         <th>Total</th>
                         <th class="text-center">Status</th>
+                        <th>Catatan</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,7 +26,7 @@
                             <td><a href="<?= url_to('backend.verifikasi_pembayaran.detail_transaksi.view', $transaction['transaksi_kode']); ?>" class="text-bold" style="font-size: 13pt;"><u><?= $transaction['transaksi_kode']; ?></u></a></td>
                             <td><?= $transaction['nama_member']; ?></td>
                             <td><?= $transaction['tanggal_transaksi']; ?></td>
-                            <td><?= number_format($transaction['total'] - ($transaction['diskon'] / 100) * $transaction['total'], 0, ',', '.') ?></td>
+                            <td class="text-end"><?= number_format($transaction['total'] - ($transaction['diskon'] / 100) * $transaction['total'], 0, ',', '.') ?></td>
                             <td class="text-center">
                                 <?php if ($transaction['status'] == null) : ?>
                                     <span class="badge bg-warning">Pending</span>
@@ -35,6 +36,7 @@
                                     <span class="badge bg-success">Berhasil</span>
                                 <?php endif ?>
                             </td>
+                            <td><?= $transaction['catatan']; ?></td>
                         </tr>
                     <?php endforeach ?>
                 </tbody>

@@ -400,39 +400,6 @@
                 </div>
 
                 <div class="row gy-4">
-
-                    <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="200">
-                        <div class="pricing-item">
-
-                            <div class="pricing-header" style="background-color: plum">
-                                <h3>Distributor</h3>
-                                <h4><sup>RP.</sup>45.000.000<span></span></h4>
-                            </div>
-
-                            <ul>
-                                <li><i class="bi bi-dot"></i> <span>750 botol (Harga : 60.000/botol)</span></li>
-                                <li><i class="bi bi-dot"></i> <span>100 starter kit (tester)</span></li>
-                                <li><i class="bi bi-dot"></i> <span>ID distributor</span></li>
-                                <li><i class="bi bi-dot"></i> <span>Reward tingkat distributor</span></li>
-                                <li><i class="bi bi-dot"></i> <span>Jaringan Reseller & Customer</span></li>
-                                <li><i class="bi bi-dot"></i> <span>Modul penjualan (10 Buku)</span></li>
-                                <li><i class="bi bi-dot"></i> <span>Group networking</span></li>
-                                <li><i class="bi bi-dot"></i> <span>Banner penjualan</span></li>
-                                <li><i class="bi bi-dot"></i> <span>Brosur penjualan</span></li>
-                                <li><i class="bi bi-dot"></i> <span>Booth penjualan</span></li>
-                                <li><i class="bi bi-dot"></i> <span>Kartu nama</span></li>
-                                <li><i class="bi bi-dot"></i> <span>T-shirt (5 pcs)</span></li>
-                                <li><i class="bi bi-dot"></i> <span>Team desain grafis</span></li>
-                                <li><i class="bi bi-dot"></i> <span>Bimbingan</span></li>
-                            </ul>
-
-                            <div class="text-center mt-auto">
-                                <a href="https://alvo.chat/1EKX" class="buy-btn">Buy Now</a>
-                            </div>
-
-                        </div>
-                    </div><!-- End Pricing Item -->
-
                     <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="400">
                         <div class="pricing-item featured">
 

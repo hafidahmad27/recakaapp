@@ -13,7 +13,7 @@
                             <h3>Kode Voucher: <?= $voucher['kode_voucher']; ?></h3>
                             <h6>Diskon <?= $voucher['diskon']; ?>%</h6>
                             <div class="meta">
-                                <span><?= date('d M Y H:m', strtotime($voucher['tanggal_mulai'])) . ' - ' . date('d M Y H:m', strtotime($voucher['tanggal_berakhir'])) ?></span>
+                                <span><?= date('d M Y H:i', strtotime($voucher['tanggal_mulai'])) . ' - ' . date('d M Y H:i', strtotime($voucher['tanggal_berakhir'])) ?></span>
                                 <p style="text-align: justify;"><?= $voucher['deskripsi']; ?></p>
                             </div>
                         </div>

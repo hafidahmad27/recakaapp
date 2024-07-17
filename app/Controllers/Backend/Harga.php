@@ -26,7 +26,7 @@ class Harga extends BaseController
             'content_header' => 'Kelola Harga',
             'memberLevel_options' => $this->memberLevelModel->orderBy('id', 'ASC')->findAll(),
             'produk_options' => $this->produkModel->findAll(),
-            'harga' => $this->hargaModel->select('harga.id, kode_produk, nama_produk, harga_umum, harga_khusus, member_level_id, nama_level_member')->join('produk', 'harga.produk_id = produk.id')->join('member_levels', 'harga.member_level_id = member_levels.id')->orderBy('kode_produk', 'ASC')->findAll()
+            'harga' => $this->hargaModel->select('harga.id, kode_produk, nama_produk, harga_umum, harga_khusus, member_level_id, nama_level_member')->join('produk', 'harga.produk_id = produk.id')->join('member_levels', 'harga.member_level_id = member_levels.id')->orderBy('id', 'DESC')->findAll()
         ];
 
         return view('backend/harga/index', $data);
@@ -48,15 +48,19 @@ class Harga extends BaseController
             ->where('member_level_id', $data['member_level_id'])
             ->first();
 
+        $nama_produk_str = is_array($nama_produk) ? implode('', $nama_produk) : $nama_produk;
+        $nama_level_member_str = is_array($nama_level_member) ? implode('', $nama_level_member) : $nama_level_member;
+
         if ($cek_produk) {
             // Member Level ID sudah ada, tampilkan pesan kesalahan
-            return redirect()->back()->with('message_add', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Produk <b>' . implode($nama_produk) . ' - ' . implode($nama_level_member) . '</b> sudah ada! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            return redirect()->back()->with('message_add', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Produk <b>' . $nama_produk_str . ' - ' . $nama_level_member_str . '</b> sudah ada! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         } else {
             // Simpan data ke basis data
             $this->hargaModel->insert($data);
-            return redirect()->back()->with('message_add', '<div class="alert alert-success alert-dismissible fade show" role="alert">Produk <b>' . implode($nama_produk) . ' - ' . implode($nama_level_member) . '</b> telah ditambahkan <i class="bi bi-check-circle"></i></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            return redirect()->back()->with('message_add', '<div class="alert alert-success alert-dismissible fade show" role="alert">Produk <b>' . $nama_produk_str . ' - ' . $nama_level_member_str . '</b> telah ditambahkan <i class="bi bi-check-circle"></i><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         }
     }
+
 
     public function update()
     {

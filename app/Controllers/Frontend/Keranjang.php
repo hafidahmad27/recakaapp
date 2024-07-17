@@ -52,6 +52,14 @@ class Keranjang extends BaseController
         $produk_id = $this->request->getPost('produk_id');
         $jumlah = 1;
 
+        // Ambil nama produk berdasarkan produk_id
+        $produk = $this->produkModel->find($produk_id);
+
+        if (!$produk) {
+            // Handle error jika produk tidak ditemukan
+            return redirect()->route('frontend.produk.view')->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Produk dengan ID <b>' . $produk_id . '</b> tidak ditemukan! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+        }
+
         $data_input = [
             'member_id' => $member_id,
             'produk_id' => $produk_id,
@@ -63,48 +71,58 @@ class Keranjang extends BaseController
             ->first();
 
         if ($cek_produk) {
-            // Member Level ID sudah ada, tampilkan pesan kesalahan
-            // dd('sudah ada');
-            return redirect()->route('frontend.produk.view')->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Produk <b>' . $data_input['produk_id'] . '</b> sudah ada di keranjang! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
-            // return redirect()->back()->with('message_add', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Produk <b>' . implode($nama_produk) . ' - ' . implode($nama_level_member) . '</b> sudah ada! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            // Produk sudah ada di keranjang, tampilkan pesan kesalahan
+            return redirect()->route('frontend.produk.view')->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Produk <b>' . $produk['nama_produk'] . '</b> sudah ada di keranjang! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         } else {
+            // Produk belum ada di keranjang, tambahkan ke keranjang
             $this->keranjangModel->insert($data_input);
-            return redirect()->route('frontend.produk.view')->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Produk <b>' . $data_input['produk_id'] . '</b> berhasil ditambahkan ke keranjang <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            return redirect()->route('frontend.produk.view')->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Produk <b>' . $produk['nama_produk'] . '</b> berhasil ditambahkan ke keranjang! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         }
     }
 
-    // public function updateCart()
-    // {
-    //     $id = $this->request->getPost('id');
-
-    //     $data = [
-    //         'jumlah' => dd($this->request->getPost('jumlah'))
-    //     ];
-
-    //     $this->keranjangModel->update($id, $data);
-    //     return redirect()->back();
-    // }
-
     public function updateCart()
     {
-        // $cart_ids = $this->request->getPost('cart_ids');
-        // $quantities = $this->request->getPost('quantities');
-        // $voucher_code = $this->request->getPost('voucher_code');
+        $quantities = $this->request->getPost('jumlah');
+        $member_id = session()->get('id');
 
-        // foreach ($cart_ids as $index => $id) {
-        //     $data = [
-        //         'jumlah' => $quantities[$index]
-        //     ];
-        //     $this->keranjangModel->update($id, $data);
-        // }
+        // Fetch all products in the cart along with their current stock
+        $cartItems = $this->keranjangModel->select('keranjang.id as keranjang_id, produk.id as produk_id, produk.nama_produk, produk.jumlah as stok')
+            ->join('produk', 'keranjang.produk_id = produk.id')
+            ->where('keranjang.member_id', $member_id)
+            ->findAll();
 
-        // if (!empty($voucher_code)) {
-        //     // Handle voucher code logic here
-        //     // For example, check if the voucher is valid and apply the discount
-        // }
+        foreach ($cartItems as $cartItem) {
+            $cart_id = $cartItem['keranjang_id'];
+            // $produk_id = $cartItem['produk_id'];
+            $stok = $cartItem['stok'];
+            $nama_produk = $cartItem['nama_produk'];
 
-        // return redirect()->back(); // Redirect to the cart page
+            if (isset($quantities[$cart_id])) {
+                $desired_quantity = $quantities[$cart_id];
+
+                // Check if there is enough stock
+                if ($stok < $desired_quantity) {
+                    return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Stok produk <b>' . $nama_produk . '</b> tidak mencukupi! (Tersisa: <b>' . $cartItem['stok'] . '</b>)<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                }
+
+                // Update the cart with the new quantity
+                $this->keranjangModel->update($cart_id, ['jumlah' => $desired_quantity]);
+            }
+        }
+        return redirect()->back()->with('success', '<div class="alert alert-success alert-dismissible fade show" role="alert"><b>Jumlah keranjang telah ter-update!</b><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
     }
+
+
+    // public function updateCart()
+    // {
+    //     $quantities = $this->request->getPost('jumlah');
+
+    //     foreach ($quantities as $id => $quantity) {
+    //         $this->keranjangModel->update($id, ['jumlah' => $quantity]);
+    //     }
+
+    //     return redirect()->back()->with('success', '<div class="alert alert-success alert-dismissible fade show" role="alert"><b>Jumlah keranjang telah ter-update.</b><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+    // }
 
     public function deleteFromCart()
     {
@@ -129,16 +147,22 @@ class Keranjang extends BaseController
         ];
         $this->transaksiModel->insert($transaksi_data);
 
-        $storeKeranjang = $this->keranjangModel->select('nama_produk, keranjang.jumlah, harga_umum')
+        $storeKeranjang = $this->keranjangModel->select('produk.id as produk_id, nama_produk, keranjang.jumlah, harga_umum, produk.jumlah as stok')
             ->join('members', 'keranjang.member_id = members.id')
             ->join('produk', 'keranjang.produk_id = produk.id')
             ->get()->getResultArray();
+
         foreach ($storeKeranjang as $storeCartItem) {
+            // Update the stock in the ProdukModel
+            $new_stok = $storeCartItem['stok'] - $storeCartItem['jumlah'];
+            $this->produkModel->update($storeCartItem['produk_id'], ['jumlah' => $new_stok]);
+            $bonus = floor($storeCartItem['jumlah'] / 1000);
             $transaction_detail_data[] = [
                 'transaksi_kode' => $transaksi_data['kode_transaksi'],
                 'nama_produk' => $storeCartItem['nama_produk'],
                 'jumlah' => $storeCartItem['jumlah'],
-                'harga' => $storeCartItem['harga_umum']
+                'harga' => $storeCartItem['harga_umum'],
+                'bonus' => $bonus
             ];
         }
         $this->transaksiDetailModel->insertBatch($transaction_detail_data);
@@ -153,6 +177,6 @@ class Keranjang extends BaseController
 
         $this->keranjangModel->where('member_id', $id)->delete();
 
-        return redirect()->back();
+        return redirect()->to('http://localhost:8080/member/orders/order-details/' . $transaksi_data['kode_transaksi']);
     }
 }
