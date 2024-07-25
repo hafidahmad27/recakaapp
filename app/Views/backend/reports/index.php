@@ -15,6 +15,12 @@
     </div>
     <div class="card-body">
         <?= session()->getFlashdata('message'); ?>
+
+        <form action="<?= url_to('backend.report.cetak_pdf') ?>" method="post" class="mb-3">
+            <input type="hidden" name="start_date" value="<?= isset($start_date) ? $start_date : '' ?>">
+            <input type="hidden" name="end_date" value="<?= isset($end_date) ? $end_date : '' ?>">
+            <button type="submit" class="btn btn-danger" formtarget="_blank"><i class="bi bi-file-earmark-pdf"></i> Cetak PDF</button>
+        </form>
         <table class="table table-striped" id="table1">
             <thead>
                 <tr>

@@ -11,6 +11,8 @@ $routes->get('/', 'Home::index');
 $routes->get('admin', 'Backend\Auth::index', ['filter' => 'userLoggedIn']);
 $routes->post('login_backend', 'Backend\Auth::login_backend', ['as' => 'backend.login']);
 $routes->get('logout_backend', 'Backend\Auth::logout_backend', ['as' => 'backend.logout']);
+$routes->post('/order/pay', 'Frontend\Order::pay', ['as' => 'order.pay']);
+
 
 // Routes Backend
 $routes->group('backend', ['filter' => 'userNotLoggedIn'], static function ($routes) {
@@ -61,6 +63,7 @@ $routes->group('backend', ['filter' => 'userNotLoggedIn'], static function ($rou
     $routes->group('reports', static function ($routes) {
         $routes->get('/', 'Backend\Report::index', ['as' => 'backend.report.view']);
         $routes->post('filter', 'Backend\Report::filter', ['as' => 'backend.report.filter']);
+        $routes->post('cetak_pdf', 'Backend\Report::cetak_pdf', ['as' => 'backend.report.cetak_pdf']);
     });
     $routes->group('karyawan', static function ($routes) {
         $routes->get('/', 'Backend\Karyawan::index', ['as' => 'backend.karyawan.view']);

@@ -123,13 +123,23 @@
         <div class="card">
             <h5 class="card-header text-white" style="background-color: #3b5d50;">Informasi Pembayaran</h5>
             <div class="card-body">
-                <p class="fw-bold">Silahkan melakukan pembayaran melalui Nomor Rekening dibawah ini:</p>
+                <div class="text-center">
+                    <p class="fw-bold">Silahkan bayar secara online</p>
+                    <button type="button" class="btn btn-outline-secondary" onclick="bayarOnline('<?= $transaction['kode_transaksi']; ?>')"><i class="fas fa-money-bill-wave"></i> Bayar online</button>
+                    <form id="pay-form" action="<?= url_to('order.pay'); ?>" method="POST" style="display: none;">
+                        <?= csrf_field(); ?>
+                        <input type="hidden" name="transaksi_kode" id="transaksi_kode">
+                    </form>
+                </div>
+                <hr>
+                <p class="fw-bold text-center">Atau<br>Bayar offline melalui rekening berikut:</p>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Bank BCA : 6712345678 </li>
                     <li class="list-group-item">Bank Mandiri : 10012345678</li>
                     <li class="list-group-item">Bank BNI : 5562424124</li>
                 </ul>
                 <div class="text-center">
+                    <p class="fw-bold mt-3">Kemudian bukti bayar harap di-upload:</p>
                     <form action="<?= url_to('frontend.order.uploadBuktiBayar'); ?>" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="transaksi_kode" value="<?= $transaction['kode_transaksi']; ?>">
                         <?php if ($transaction['foto_bukti_pembayaran'] == null && $transaction['status'] == null) : ?>
@@ -162,5 +172,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    function bayarOnline(kodeTransaksi) {
+        document.getElementById('transaksi_kode').value = kodeTransaksi;
+        document.getElementById('pay-form').submit();
+    }
+</script>
 
 <?= $this->endSection() ?>

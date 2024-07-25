@@ -9,6 +9,9 @@ use App\Models\TransaksiDetailModel;
 use App\Models\VoucherModel;
 use App\Models\PembayaranModel;
 use App\Models\KaryawanModel;
+use App\Config\Midtrans;
+use Midtrans\Config;
+use Midtrans\Snap;
 
 class Order extends BaseController
 {
@@ -21,6 +24,12 @@ class Order extends BaseController
         $this->voucherModel = new VoucherModel();
         $this->pembayaranModel = new PembayaranModel();
         $this->karyawanModel = new KaryawanModel();
+
+        $midtransConfig = Midtrans::configure();
+        Config::$serverKey = $midtransConfig['serverKey'];
+        Config::$isProduction = $midtransConfig['isProduction'];
+        Config::$isSanitized = $midtransConfig['isSanitized'];
+        Config::$is3ds = $midtransConfig['is3ds'];
     }
 
     public function index()
@@ -41,10 +50,40 @@ class Order extends BaseController
         return view('frontend/orders', $data);
     }
 
+    public function pay()
+    {
+        $transaksi_kode = $this->request->getPost('transaksi_kode');
+        $transaction = $this->transaksiModel->where('kode_transaksi', $transaksi_kode)->join('members', 'transaksi.member_id = members.id')->first();
+        $order_details = $this->transaksiDetailModel->where('transaksi_kode', $transaksi_kode)->findAll();
+        // Midtrans::configure();
+        $params = [
+            'transaction_details' => [
+                'order_id' => $transaction['kode_transaksi'],
+                'gross_amount' => $transaction['total'],
+            ],
+            'customer_details' => [
+                'first_name' => $transaction['nama_member'],
+                'email' => 'customer@example.com',
+                'phone' => '081234567890',
+            ],
+            'item_details' => array_map(function ($detail) {
+                return [
+                    'id' => $detail['transaksi_kode'],
+                    'price' => $detail['harga'],
+                    'quantity' => $detail['jumlah'],
+                    'name' => $detail['nama_produk']
+                ];
+            }, $order_details)
+        ];
+
+        $snapToken = Snap::getSnapToken($params);
+        return view('frontend/payment_midtrans', ['snapToken' => $snapToken]);
+    }
+
     public function order_details($kode_transaksi)
     {
         $id = session()->get('id');
-
+        // Midtrans::configure();
         $data = [
             'title' => 'Detail Order | Recaka',
             'content_header' => 'Detail Order',
